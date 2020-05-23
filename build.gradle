@@ -21,42 +21,22 @@ repositories {
     jcenter()
 }
 
-ext {
-    hutoolVersion =  "5.3.3"
-    upyunSdkVersion =  "4.2.0"
-    qiniuSdkVersion =  "7.2.28"
-    aliyunSdkVersion =  "3.9.1"
-    baiduSdkVersion =  "0.10.36"
-    qcloudSdkVersion =  "5.6.22"
-    swaggerVersion =  "2.9.2"
-    commonsLangVersion =  "3.10"
-    httpclientVersion =  "4.5.12"
-    dataformatYamlVersion =  "2.11.0"
-    jgitVersion =  "5.7.0.202003110725-r"
-    flexmarkVersion =  "0.61.30"
-    thumbnailatorVersion =  "0.4.11"
-    image4jVersion =  "0.7zensight1"
-    flywayVersion =  "6.4.1"
-    h2Version =  "1.4.196"
-    levelDbVersion =  "0.12"
-    fastJsonVersion =  "1.2.68"
-    annotationsVersion = "3.0.1u2"
-    jedisVersion= '3.3.0'
-    zxingVersion = "3.4.0"
-    huaweiObsVersion = "3.19.7"
-}
 dependencies {
     implementation "org.apache.commons:commons-compress:1.20"
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation "org.apache.commons:commons-lang3:$commonsLangVersion"
+    implementation "org.apache.commons:commons-lang3"
     implementation 'mysql:mysql-connector-java'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
-    testImplementation 'org.springframework.security:spring-security-test'
+
+    compile('org.springframework.boot:spring-boot-starter-security')    
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.apache.commons:commons-lang3:3.8')
+    compile('com.auth0:java-jwt:3.4.0')
+    compile('com.alibaba:fastjson:1.2.47')
+    
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.security:spring-security-test')
 }
 
 test {
