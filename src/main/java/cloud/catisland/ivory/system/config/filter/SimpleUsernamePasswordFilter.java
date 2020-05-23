@@ -1,4 +1,4 @@
-package cloud.catisland.ivory.system.config.security;
+package cloud.catisland.ivory.system.config.filter;
 
 import java.io.IOException;
 import java.nio.charset.Charset;

@@ -7,6 +7,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.session.NullAuthenticatedSessionStrategy;
 
+import cloud.catisland.ivory.system.config.filter.SimpleUsernamePasswordFilter;
+
 public class JsonLoginConfigurer<T extends JsonLoginConfigurer<T, B>, B extends HttpSecurityBuilder<B>>
         extends AbstractHttpConfigurer<T, B> {
 
