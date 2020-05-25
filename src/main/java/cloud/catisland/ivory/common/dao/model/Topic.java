@@ -18,12 +18,21 @@ public class Topic {
     @GeneratedValue
     private long tid;
     
-    //用户ID
+    //发布用户ID
     @Column(nullable = false)
     private long uid;
 
-    //用户名
+    //发布用户名
     @Column(nullable = false, unique = true)
     private String user_name;
 
+    //标题
+
+    //内容
+
+    //图片集合
+
+    //发布时间
+
+    //状态
 }

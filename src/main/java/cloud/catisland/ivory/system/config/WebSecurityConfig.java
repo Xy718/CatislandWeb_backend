@@ -11,9 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.header.Header;
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
@@ -34,18 +31,17 @@ import cloud.catisland.ivory.system.config.security.TokenClearLogoutHandler;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
-	protected void configure(HttpSecurity http) 
-	throws Exception {
+	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 		        .antMatchers("/image/**").permitAll()
 		        .antMatchers("/admin/**").hasAnyRole("ADMIN")
 		        .antMatchers("/article/**").hasRole("USER")
 		        .anyRequest().authenticated()
 		        .and()
-		    .csrf().disable()
-		    .formLogin().disable()
-		    .sessionManagement().disable()
-		    .cors()
+		    .csrf().disable()									//关闭csrf
+		    .formLogin().disable()								//关闭原生form表单登录
+		    .sessionManagement().disable()						//关闭session管理
+		    .cors()												//跨域支持
 		    .and()
 		    .headers().addHeaderWriter(new StaticHeadersWriter(Arrays.asList(
 		    		new Header("Access-control-Allow-Origin","*"),
