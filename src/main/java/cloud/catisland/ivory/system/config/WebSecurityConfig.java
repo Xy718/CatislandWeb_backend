@@ -68,9 +68,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(daoAuthenticationProvider())
 		.authenticationProvider(jwtAuthenticationProvider())
-		.inMemoryAuthentication()
-		.passwordEncoder(new BCryptPasswordEncoder())
-        .withUser("admin").roles("ADMIN").password("{noop}password");
 		;
 	}
 	
