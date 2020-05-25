@@ -23,7 +23,7 @@ public class JwtUserService implements UserDetailsService {
 	 throws UsernameNotFoundException {
         PasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
         //TODO 真实系统需要从数据库或缓存中获取，这里对密码做了加密
-        return User.builder().username("Jack").password(passwordEncoder.encode("jack-password")).roles("USER").build();
+        return User.builder().username("Jack").password("{bcrypt}"+passwordEncoder.encode("jack-password")).roles("USER").build();
 	}
 
 	public String saveUserLoginInfo(UserDetails user) {

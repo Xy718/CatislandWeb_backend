@@ -40,9 +40,9 @@ public class SimpleUsernamePasswordFilter extends AbstractAuthenticationProcessi
         }   
         
         if (username == null) 
-            username = "";
+            username = "jzf";
         if (password == null)
-            password = "";
+            password = "{bcrypt}123";
         username = username.trim();
        //封装到token中提交
         UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
