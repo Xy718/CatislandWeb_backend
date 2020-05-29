@@ -4,6 +4,20 @@ import java.io.Serializable;
 
 import lombok.Data;
 
+/**
+ * Ajax基本返回类型
+ * <pre>
+ * {
+ *  "code":"X",
+ *  "msg":"XXX",
+ *  "data:{}
+ * }
+ * </pre>
+ * @Author: Xy718
+ * @Date: 2020-05-25 23:02:50
+ * @LastEditors: Xy718
+ * @LastEditTime: 2020-05-29 11:18:31
+ */ 
 @Data
 public class ResultBean implements Serializable {
 
