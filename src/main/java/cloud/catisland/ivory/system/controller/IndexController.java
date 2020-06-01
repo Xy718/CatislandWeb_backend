@@ -34,20 +34,5 @@ public class IndexController {
     @Resource
     private TopicService topicService;
 
-    /**
-     * 展示贴接口
-     * @param pageNo
-     * @param pageCount
-     * @return
-     */
-    @GetMapping("/topics")
-    public ResultBean getTopics(
-        @RequestParam("page") Integer pageNo
-        ,@RequestParam("count") Integer pageCount
-    ){
-        LOGGER.info("giao!");
-        Pageable pageRequest = PageRequest.of(pageNo-1, pageCount, Sort.by(Direction.DESC , ""));
-
-        return ResultBean.success(topicService.getTopicsPage(pageRequest));
-    }
+    
 }

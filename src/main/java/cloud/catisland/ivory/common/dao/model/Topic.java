@@ -10,6 +10,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.alibaba.fastjson.JSONObject;
+import com.vladmihalcea.hibernate.type.json.JsonStringType;
+
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -21,12 +26,13 @@ import lombok.Data;
  * @Author: Xy718
  * @Date: 2020-05-25 21:13:21
  * @LastEditors: Xy718
- * @LastEditTime: 2020-05-29 16:15:58
+ * @LastEditTime: 2020-06-01 16:44:39
  */
 @Data
 @Entity
 @Table(name = "topic")
 @EntityListeners(AuditingEntityListener.class)
+@TypeDef(name = "json", typeClass = JsonStringType.class)
 public class Topic {
 
     // TopicID
@@ -51,7 +57,8 @@ public class Topic {
     private String content;
 
     // 图片集合
-    @Column
+    @Type(type = "json")
+    @Column(columnDefinition = "json" )
     private List<String> imgs;
 
     // 发布时间

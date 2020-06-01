@@ -7,7 +7,9 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import cloud.catisland.ivory.common.dao.model.Topic;
@@ -18,7 +20,7 @@ import cloud.catisland.ivory.common.dao.repository.TopicRepository;
  * @Author: Xy718
  * @Date: 2020-05-25 21:13:21
  * @LastEditors: Xy718
- * @LastEditTime: 2020-05-29 16:43:44
+ * @LastEditTime: 2020-06-01 17:51:03
  */ 
 @Service
 public class TopicService {
@@ -36,8 +38,8 @@ public class TopicService {
      * @param count
      * @return
      */
-	public Page<Topic> getTopicsPage(Pageable pageable) {
-        Page<Topic> page =topicRepository.findByPage(pageable);
-		return page;
+	public Page<Topic> getTopicsPage(int page,int size,Sort sort) {
+        Page<Topic> pageResult = topicRepository.findAll(PageRequest.of(page, size, sort));
+		return pageResult;
 	}
 }
