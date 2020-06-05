@@ -24,41 +24,62 @@ import cloud.catisland.ivory.system.config.filter.OptionsRequestFilter;
 import cloud.catisland.ivory.system.config.security.JwtAuthenticationProvider;
 import cloud.catisland.ivory.system.config.security.JwtLoginConfigurer;
 import cloud.catisland.ivory.system.config.security.JwtRefreshSuccessHandler;
-import cloud.catisland.ivory.system.config.security.JsonLoginConfigurer;
-import cloud.catisland.ivory.system.config.security.JsonLoginSuccessHandler;
 import cloud.catisland.ivory.system.config.security.TokenClearLogoutHandler;
+import cloud.catisland.ivory.system.config.security.login.JsonLoginConfigurer;
+import cloud.catisland.ivory.system.config.security.login.JsonLoginSuccessHandler;
 
+/**
+ * SpringSecurity配置程序
+ * @Author: Xy718
+ * @Date: 2020-05-25 21:13:21
+ * @LastEditors: Xy718
+ * @LastEditTime: 2020-06-04 14:05:17
+ */
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
+		http
+			//所有的url过滤链
+			.authorizeRequests()
 		        .antMatchers("/image/**").permitAll()
 		        .antMatchers("/topic/**").permitAll()
+		        .antMatchers("/auth/**").permitAll()
 		        .antMatchers("/admin/**").hasAnyRole("ADMIN")
 		        .antMatchers("/article/**").hasRole("USER")
 		        .anyRequest().authenticated()
-		        .and()
+				.and()
+				
 		    .csrf().disable()									//关闭csrf
 		    .formLogin().disable()								//关闭原生form表单登录
 		    .sessionManagement().disable()						//关闭session管理
 		    .cors()												//跨域支持
-		    .and()
+			.and()
+			//定义统一headers
 		    .headers().addHeaderWriter(new StaticHeadersWriter(Arrays.asList(
 		    		new Header("Access-control-Allow-Origin","*"),
 		    		new Header("Access-Control-Expose-Headers","Authorization"))))
-		    .and()
+			.and()
+			//开始添加过滤链处理程序
 		    .addFilterAfter(new OptionsRequestFilter(), CorsFilter.class)
-		    .apply(new JsonLoginConfigurer<>()).loginSuccessHandler(jsonLoginSuccessHandler())
-		    .and()
-		    .apply(new JwtLoginConfigurer<>()).tokenValidSuccessHandler(jwtRefreshSuccessHandler()).permissiveRequestUrls("/logout")
-		    .and()
+			.apply(new JsonLoginConfigurer<>())
+			.loginSuccessHandler(jsonLoginSuccessHandler())
+			.and()
+			
+			.apply(new JwtLoginConfigurer<>())
+			.tokenValidSuccessHandler(jwtRefreshSuccessHandler())
+			.permissiveRequestUrls("/logout")
+			.and()
+			
 		    .logout()
 			//.logoutUrl("/logout")   //默认就是"/logout"
-		        .addLogoutHandler(tokenClearLogoutHandler())
-		        .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
-		    .and()
-		    .sessionManagement().disable();
+			.addLogoutHandler(tokenClearLogoutHandler())						//退出登录的处理程序
+			.logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())//退出登录成功的处理程序
+			
+			;
+			// .and()
+			
+		    // .sessionManagement().disable();
 	}
 	
 	@Override

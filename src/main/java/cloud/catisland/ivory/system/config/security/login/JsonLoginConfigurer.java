@@ -1,4 +1,4 @@
-package cloud.catisland.ivory.system.config.security;
+package cloud.catisland.ivory.system.config.security.login;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.HttpSecurityBuilder;
@@ -9,6 +9,13 @@ import org.springframework.security.web.authentication.session.NullAuthenticated
 
 import cloud.catisland.ivory.system.config.filter.SimpleUsernamePasswordFilter;
 
+/**
+ * 登录配置类
+ * @Author: Xy718
+ * @Date: 2020-05-24 23:28:06
+ * @LastEditors: Xy718
+ * @LastEditTime: 2020-06-04 13:56:03
+ */
 public class JsonLoginConfigurer<T extends JsonLoginConfigurer<T, B>, B extends HttpSecurityBuilder<B>>
         extends AbstractHttpConfigurer<T, B> {
 

@@ -7,6 +7,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 import cloud.catisland.ivory.system.config.filter.JwtAuthenticationFilter;
+import cloud.catisland.ivory.system.config.security.login.JsonLoginFailureHandler;
 
 public class JwtLoginConfigurer<T extends JwtLoginConfigurer<T, B>, B extends HttpSecurityBuilder<B>>
         extends AbstractHttpConfigurer<T, B> {

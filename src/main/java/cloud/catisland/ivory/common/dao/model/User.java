@@ -17,24 +17,24 @@ public class User {
     @GeneratedValue
     private long uid;
     //用户名
-    @Column(nullable = false, unique = true)
-    private String user_name;
+    @Column(name="user_name",nullable = false, unique = true)
+    private String userName;
     //用户游戏账号
-    @Column(nullable = false)
-    private String user_game_id;
+    @Column(name="user_game_id",nullable = false)
+    private String userGameID;
     //用户游戏UUID
-    @Column(nullable = false)
-    private String user_game_uuid;
+    @Column(name="user_game_uuid",nullable = false)
+    private String userGameUUID;
     //手机号
-    @Column(nullable = false, unique = true)
+    @Column(name="phone",nullable = false, unique = true)
     private String phone;
     //邮箱
-    @Column(nullable = false, unique = true)
+    @Column(name="email",nullable = false, unique = true)
     private String email;
     //密码(BCrypt加密)
-    @Column(nullable = false)
+    @Column(name="password",nullable = false)
     private String password;
     //密码加密盐
-    @Column(nullable = false)
-    private String password_salt;
+    @Column(name="password_salt",nullable = false)
+    private String passwordSalt;
 }
