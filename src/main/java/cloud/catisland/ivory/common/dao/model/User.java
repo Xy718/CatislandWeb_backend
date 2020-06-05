@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import cloud.catisland.ivory.system.model.BO.RegBO;
 import lombok.Data;
 
 @Data
@@ -37,4 +38,12 @@ public class User {
     //密码加密盐
     @Column(name="password_salt",nullable = false)
     private String passwordSalt;
+
+    /**
+     * 根据传入的RegBO创建一个待保存的新用户对象
+     */
+    public User(RegBO regBO){
+        this.userName=regBO.getUsername();
+        this.password=regBO.getPassword();
+    }
 }
