@@ -2,6 +2,7 @@ package cloud.catisland.ivory.system.config.filter;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.Objects;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -39,10 +40,9 @@ public class SimpleUsernamePasswordFilter extends AbstractAuthenticationProcessi
             password = jsonObj.getString("password");
         }   
         
-        if (username == null) 
-            username = "jzf";
-        if (password == null)
-            password = "{bcrypt}123";
+        Objects.requireNonNull(username, "用户名不能为空");
+        Objects.requireNonNull(password, "密码不能为空");
+
         username = username.trim();
        //封装到token中提交
         UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
