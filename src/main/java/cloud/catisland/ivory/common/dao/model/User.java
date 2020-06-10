@@ -6,9 +6,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.RandomUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import cloud.catisland.ivory.system.model.BO.RegBO;
+import cn.hutool.core.util.RandomUtil;
 import lombok.Data;
 
+/**
+ * 用户类/DO
+ * @author Xy718
+ * 
+ */
+//TODO 记得把一些Unique字段弄一下
 @Data
 @Entity
 @Table(name="user")
@@ -30,10 +40,10 @@ public class User {
     @Column(name="user_game_uuid",nullable = false)
     private String userGameUUID="";
     //手机号
-    @Column(name="phone",nullable = false, unique = true)
+    @Column(name="phone",nullable = false)//, unique = true
     private String phone="";
     //邮箱
-    @Column(name="email",nullable = false, unique = true)
+    @Column(name="email",nullable = false)//, unique = true
     private String email="";
     //密码(BCrypt加密)
     @Column(name="password",nullable = false)
@@ -47,7 +57,16 @@ public class User {
      */
     public User(RegBO regBO){
         this.userName=regBO.getUsername();
-        this.password=regBO.getPassword();
+        //生成密码盐
+        this.passwordSalt=RandomUtil.randomString(8);
+        //TODO 密码BCrypt加密
+        // this.password=regBO.getPassword();
+        this.password=new BCryptPasswordEncoder().encode(this.passwordSalt+regBO.getPassword());
         this.nickName=this.userName;
     }
+
+    /**
+     * 不带参的构造函数，用于支持Hibernate反射创造对象
+     */
+    public User(){}
 }

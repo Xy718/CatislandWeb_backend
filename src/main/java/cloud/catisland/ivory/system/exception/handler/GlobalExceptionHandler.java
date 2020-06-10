@@ -1,10 +1,11 @@
-package cloud.catisland.ivory.system.exception;
+package cloud.catisland.ivory.system.exception.handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import cloud.catisland.ivory.system.exception.base.UserPassErrorException;
 import cloud.catisland.ivory.system.model.BO.ResultBean;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  * @Author: Xy718
  * @Date: 2020-06-05 13:58:18
  * @LastEditors: Xy718
- * @LastEditTime: 2020-06-05 17:46:06
+ * @LastEditTime: 2020-06-10 00:28:02
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -30,5 +31,16 @@ public class GlobalExceptionHandler {
         List<ObjectError> allErrors=exception.getBindingResult().getAllErrors();
 
         return ResultBean.error(allErrors.get(0).getDefaultMessage());
+    }
+    
+    /**
+     * 用于捕获用户名密码错误的异常
+     * @param exception
+     * @return ResultBean
+     */
+    @ExceptionHandler(UserPassErrorException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResultBean handle(UserPassErrorException exception) {
+        return ResultBean.error(exception.getMessage());
     }
 }

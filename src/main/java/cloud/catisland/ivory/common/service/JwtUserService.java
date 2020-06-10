@@ -1,29 +1,52 @@
 package cloud.catisland.ivory.common.service;
 
 import java.util.Date;
+import java.util.Optional;
+import java.util.function.Supplier;
+
+import javax.annotation.Resource;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+
+import cn.hutool.extra.spring.SpringUtil;
+
 
 public class JwtUserService implements UserDetailsService {
 
-	public JwtUserService(){
-		
+	UserService uService;
+
+	public JwtUserService(UserService uService) {
+		this.uService=uService;
 	}
 
-    @Override
-	public UserDetails loadUserByUsername(String username)
-	 throws UsernameNotFoundException {
-        PasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
-        //TODO 真实系统需要从数据库或缓存中获取，这里对密码做了加密
-        return User.builder().username("Jack").password("{bcrypt}"+passwordEncoder.encode("jack-password")).roles("USER").build();
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		// UserService uService=SpringUtil.getBean(UserService.class);
+		// TODO 真实系统需要从数据库或缓存中获取，这里对密码做了加密
+		// TODO 先不加密，测试一下
+		cloud.catisland.ivory.common.dao.model.User u = uService.findByUserName(username).get();
+		return User.builder()
+				.username(u.getUserName())
+				.password("{noop}"+u.getPassword())
+				.roles("USER")
+				.build();
+		// return User.builder()
+		// 		.username(u.getUserName())
+		// 		.password("{bcrypt}"+passwordEncoder.encode("jack-password"))
+		// 		.roles("USER")
+		// 		.build();
 	}
 
 	public String saveUserLoginInfo(UserDetails user) {
@@ -46,7 +69,11 @@ public class JwtUserService implements UserDetailsService {
     	// salt = redisTemplate.opsForValue().get("token:"+username); 	
     	UserDetails user = loadUserByUsername(username);
     	//将salt放到password字段返回
-    	return User.builder().username(user.getUsername()).password(salt).authorities(user.getAuthorities()).build();
+		return User.builder()
+				.username(user.getUsername())
+				.password(salt)
+				.authorities(user.getAuthorities())
+				.build();
 	}
 
 	public void deleteUserLoginInfo(String username) {

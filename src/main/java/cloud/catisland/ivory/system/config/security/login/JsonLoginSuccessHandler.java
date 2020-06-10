@@ -20,7 +20,7 @@ import cloud.catisland.ivory.system.model.BO.ResultBean;
  * @Author: Xy718
  * @Date: 2020-05-24 23:28:06
  * @LastEditors: Xy718
- * @LastEditTime: 2020-06-04 13:54:42
+ * @LastEditTime: 2020-06-10 09:13:51
  */
 public class JsonLoginSuccessHandler implements AuthenticationSuccessHandler {
     
@@ -39,6 +39,7 @@ public class JsonLoginSuccessHandler implements AuthenticationSuccessHandler {
         //生成token，并把token加密相关信息缓存
         String token = jwtUserService.saveUserLoginInfo((UserDetails)authentication.getPrincipal());
         response.setHeader("Authorization", token);
+        response.setContentType("application/json");
         response.getWriter()
             .write(JSON.toJSONString(ResultBean.success("登陆成功！")));
     }

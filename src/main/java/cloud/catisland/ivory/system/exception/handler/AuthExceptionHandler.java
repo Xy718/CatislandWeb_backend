@@ -1,4 +1,4 @@
-package cloud.catisland.ivory.system.exception;
+package cloud.catisland.ivory.system.exception.handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.ObjectError;
@@ -16,10 +16,10 @@ import java.util.List;
  * @Author: Xy718
  * @Date: 2020-06-05 13:58:18
  * @LastEditors: Xy718
- * @LastEditTime: 2020-06-05 17:50:29
+ * @LastEditTime: 2020-06-10 00:16:07
  */
 @RestControllerAdvice
-public class AuthException {
+public class AuthExceptionHandler {
 
     @ExceptionHandler(UserAlreadyRegisteredException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

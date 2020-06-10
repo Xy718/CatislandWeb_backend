@@ -2,7 +2,9 @@ package cloud.catisland.ivory.system.config;
 
 import java.util.Arrays;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -20,6 +22,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import cloud.catisland.ivory.common.service.JwtUserService;
+import cloud.catisland.ivory.common.service.UserService;
 import cloud.catisland.ivory.system.config.filter.OptionsRequestFilter;
 import cloud.catisland.ivory.system.config.security.JwtAuthenticationProvider;
 import cloud.catisland.ivory.system.config.security.JwtLoginConfigurer;
@@ -36,7 +39,11 @@ import cloud.catisland.ivory.system.config.security.login.JsonLoginSuccessHandle
  * @LastEditTime: 2020-06-04 14:05:17
  */
 @EnableWebSecurity
+// @DependsOn("userService")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
+
+	@Autowired
+	UserService userService;
 
 	protected void configure(HttpSecurity http) throws Exception {
 		http
@@ -99,6 +106,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		return new JwtAuthenticationProvider(jwtUserService());
 	}
 	
+	/**
+	 * 声明处理用户名密码登录的Provider
+	 */
 	@Bean("daoAuthenticationProvider")
 	protected AuthenticationProvider daoAuthenticationProvider() throws Exception{
 		//这里会默认使用BCryptPasswordEncoder比对加密后的密码，注意要跟createUser时保持一致
@@ -108,12 +118,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	}
 	@Override
 	protected UserDetailsService userDetailsService() {
-		return new JwtUserService();
+		return new JwtUserService(userService);
 	}
 	
 	@Bean("jwtUserService")
 	protected JwtUserService jwtUserService() {
-		return new JwtUserService();
+		return new JwtUserService(userService);
 	}
 	
 	@Bean
