@@ -19,11 +19,11 @@ import lombok.Data;
  * @Author: Xy718
  * @Date: 2020-05-25 21:13:21
  * @LastEditors: Xy718
- * @LastEditTime: 2020-06-04 14:26:32
+ * @LastEditTime: 2020-06-10 16:22:48
  */
 @Data
 @Entity
-@Table(name = "operation")
+@Table(name = "role")
 @EntityListeners(AuditingEntityListener.class)
 public class Role {
     

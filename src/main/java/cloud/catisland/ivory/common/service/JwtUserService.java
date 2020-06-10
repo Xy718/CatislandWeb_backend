@@ -32,21 +32,13 @@ public class JwtUserService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		// UserService uService=SpringUtil.getBean(UserService.class);
-		// TODO 真实系统需要从数据库或缓存中获取，这里对密码做了加密
-		// TODO 先不加密，测试一下
+		//TODO 用户角色需要配置 
 		cloud.catisland.ivory.common.dao.model.User u = uService.findByUserName(username).get();
 		return User.builder()
 				.username(u.getUserName())
-				.password("{noop}"+u.getPassword())
+				.password(u.getPassword())
 				.roles("USER")
 				.build();
-		// return User.builder()
-		// 		.username(u.getUserName())
-		// 		.password("{bcrypt}"+passwordEncoder.encode("jack-password"))
-		// 		.roles("USER")
-		// 		.build();
 	}
 
 	public String saveUserLoginInfo(UserDetails user) {

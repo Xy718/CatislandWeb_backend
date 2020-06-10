@@ -1,6 +1,7 @@
 package cloud.catisland.ivory.system.config.security.login;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +21,7 @@ import cloud.catisland.ivory.system.model.BO.ResultBean;
  * @Author: Xy718
  * @Date: 2020-05-24 23:28:06
  * @LastEditors: Xy718
- * @LastEditTime: 2020-06-10 09:13:51
+ * @LastEditTime: 2020-06-10 16:26:50
  */
 public class JsonLoginSuccessHandler implements AuthenticationSuccessHandler {
     
@@ -40,8 +41,10 @@ public class JsonLoginSuccessHandler implements AuthenticationSuccessHandler {
         String token = jwtUserService.saveUserLoginInfo((UserDetails)authentication.getPrincipal());
         response.setHeader("Authorization", token);
         response.setContentType("application/json");
+        HashMap<String,String> temp=new HashMap<String,String>();
+        temp.put("jwt", token);
         response.getWriter()
-            .write(JSON.toJSONString(ResultBean.success("登陆成功！")));
+            .write(JSON.toJSONString(ResultBean.success("登陆成功！",temp)));
     }
     
 }

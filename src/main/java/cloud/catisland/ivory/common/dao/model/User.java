@@ -57,11 +57,9 @@ public class User {
      */
     public User(RegBO regBO){
         this.userName=regBO.getUsername();
-        //生成密码盐
+        // TODO 这个部分的密码盐持争议
         this.passwordSalt=RandomUtil.randomString(8);
-        //TODO 密码BCrypt加密
-        // this.password=regBO.getPassword();
-        this.password=new BCryptPasswordEncoder().encode(this.passwordSalt+regBO.getPassword());
+        this.password="{bcrypt}"+new BCryptPasswordEncoder().encode(regBO.getPassword());
         this.nickName=this.userName;
     }
 

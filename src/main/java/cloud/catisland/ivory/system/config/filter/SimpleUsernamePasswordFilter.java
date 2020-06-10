@@ -43,7 +43,6 @@ public class SimpleUsernamePasswordFilter extends AbstractAuthenticationProcessi
         Objects.requireNonNull(username, "用户名不能为空");
         Objects.requireNonNull(password, "密码不能为空");
 
-        //TODO 这个部分需要把密码BCrypt一下
         username = username.trim();
        //封装到token中提交
         UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
