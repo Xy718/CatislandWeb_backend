@@ -1,26 +1,14 @@
 package cloud.catisland.ivory.common.service;
 
 import java.util.Date;
-import java.util.Optional;
-import java.util.function.Supplier;
-
-import javax.annotation.Resource;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
-
-import cn.hutool.extra.spring.SpringUtil;
-
 
 public class JwtUserService implements UserDetailsService {
 
