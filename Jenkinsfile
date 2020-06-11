@@ -9,7 +9,7 @@ pipeline {
 
     stage('打包到制品库') {
       steps {
-        archiveArtifacts './build/**'
+        archiveArtifacts 'build/**'
       }
     }
     stage('部署') {
