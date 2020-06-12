@@ -8,8 +8,6 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,7 +43,7 @@ public class AuthController {
         ) throws UserAlreadyRegisteredException {
 
         LOGGER.info(uService.checkUserRegedByUsername(regBO.getUsername()).name());
-        if(uService.checkUserRegedByUsername(regBO.getUsername()).equals(UserRegStatus.Registed)){
+        if(uService.checkUserRegedByUsername(regBO.getUsername()).equals(UserRegStatus.REGED)){
             throw new UserAlreadyRegisteredException(regBO);
         }
         Optional<User> u = uService.registUser(regBO);

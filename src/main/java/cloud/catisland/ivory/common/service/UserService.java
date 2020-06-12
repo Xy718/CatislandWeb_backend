@@ -15,7 +15,7 @@ import cloud.catisland.ivory.system.model.BO.RegBO;
  * @Author: Xy718
  * @Date: 2020-06-05 11:29:37
  * @LastEditors: Xy718
- * @LastEditTime: 2020-06-13 05:50:00
+ * @LastEditTime: 2020-06-13 05:59:52
  */
 @Service
 public class UserService {
@@ -30,7 +30,7 @@ public class UserService {
      */
     public UserRegStatus checkUserRegedByUsername(String username){
         //TODO add：根据传入的所有内容检测非空Unique字段是否已被占用
-        return uRepo.findByUserName(username) == null ? UserRegStatus.UnRegist : UserRegStatus.Registed;
+        return uRepo.findByUserName(username) == null ? UserRegStatus.UNREG : UserRegStatus.REGED;
     }
 
     public Optional<User> registUser(RegBO regBO){
