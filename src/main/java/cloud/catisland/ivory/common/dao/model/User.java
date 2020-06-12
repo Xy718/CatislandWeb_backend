@@ -7,9 +7,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import cloud.catisland.ivory.system.model.BO.RegBO;
+import cloud.catisland.ivory.system.model.BO.UserInfoBO;
 import cn.hutool.core.util.RandomUtil;
 import lombok.Data;
 
@@ -71,4 +73,17 @@ public class User {
      * 不带参的构造函数，用于支持Hibernate反射创造对象
      */
     public User(){}
+
+    /**
+     * 从用户信息BO合并数据到user对象
+     * @param userInfo
+     */
+	public void mergeFromBO(UserInfoBO userInfo) {
+        if(StringUtils.isBlank(userInfo.getUser_name())){
+            this.userName=userInfo.getUser_name();
+        }
+        if(StringUtils.isBlank(userInfo.getUser_game_id())){
+            this.userGameID=userInfo.getUser_game_id();
+        }
+    }
 }

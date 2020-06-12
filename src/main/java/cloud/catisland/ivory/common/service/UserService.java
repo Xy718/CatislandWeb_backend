@@ -15,7 +15,7 @@ import cloud.catisland.ivory.system.model.BO.RegBO;
  * @Author: Xy718
  * @Date: 2020-06-05 11:29:37
  * @LastEditors: Xy718
- * @LastEditTime: 2020-06-10 08:25:42
+ * @LastEditTime: 2020-06-13 05:50:00
  */
 @Service
 public class UserService {
@@ -40,5 +40,13 @@ public class UserService {
 
 	public Optional<User> findByUserName(String username) {
 		return Optional.of(uRepo.findByUserName(username));
+	}
+
+	public Optional<User> findById(long uid) {
+		return uRepo.findById(uid);
+	}
+
+	public User save(User user) {
+		return uRepo.save(user);
 	}
 }

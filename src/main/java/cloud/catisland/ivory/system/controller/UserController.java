@@ -10,8 +10,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,13 +25,14 @@ import cloud.catisland.ivory.system.model.BO.ResultBean;
 import cloud.catisland.ivory.system.model.BO.UserInfoBO;
 import cloud.catisland.ivory.common.dao.model.User;
 import cloud.catisland.ivory.common.service.TopicService;
+import cloud.catisland.ivory.common.service.UserService;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     @Resource
-    private TopicService topicService;
+    private UserService userService;
 
     @GetMapping("/userinfo")
     public ResultBean getuserinfo(
@@ -37,21 +40,21 @@ public class UserController {
     ){
         User user=(User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
-        return ResultBean.success(new UserInfoBO());
+        return ResultBean.success(user);
     }
 
-    @PutMapping("{id}")
+    @PutMapping
     public ResponseEntity<UserInfoBO> updateInfo(
-        @RequestBody User user
+        @RequestBody UserInfoBO user
         ) {
-        Optional<entityClassName> existingItemOptional = repository.findById(user.getUid());
-        if (existingItemOptional.isPresent()) {
-            entityClassName existingItem = existingItemOptional.get();
-            System.out.println("TODO for developer - update logic is unique to entity and must be implemented manually.");
-            //existingItem.setSomeField(item.getSomeField());
-            return new ResponseEntity<>(repository.save(existingItem), HttpStatus.OK);
+        //拿出已有用户
+        Optional<User> existingItemOptional = userService.findById(user.getUid());
+        if (existingItemOptional.isPresent()) {//如果存在
+            User existingItem = existingItemOptional.get();
+            existingItem.mergeFromBO(user);
+            return new ResponseEntity<UserInfoBO>(new UserInfoBO(userService.save(existingItem)), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new UsernameNotFoundException("该用户不存在");
         }
     }
     
