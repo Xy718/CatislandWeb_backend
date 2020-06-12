@@ -52,6 +52,10 @@ public class User {
     @Column(name="password_salt",nullable = false)
     private String passwordSalt="";
 
+    //头像
+    @Column(name="avatar")
+    private String avatar="";
+
     /**
      * 根据传入的RegBO创建一个待保存的新用户对象
      */
