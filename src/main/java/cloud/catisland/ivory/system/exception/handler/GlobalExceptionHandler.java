@@ -5,6 +5,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import cloud.catisland.ivory.system.exception.base.UserNickNameNotFoundException;
 import cloud.catisland.ivory.system.exception.base.UserPassErrorException;
 import cloud.catisland.ivory.system.model.BO.ResultBean;
 
@@ -27,7 +28,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResultBean handle(MethodArgumentNotValidException exception) {
+    public ResultBean MethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         List<ObjectError> allErrors=exception.getBindingResult().getAllErrors();
 
         return ResultBean.error(allErrors.get(0).getDefaultMessage());
@@ -40,7 +41,18 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(UserPassErrorException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResultBean handle(UserPassErrorException exception) {
+    public ResultBean UserPassErrorException(UserPassErrorException exception) {
+        return ResultBean.error(exception.getMessage());
+    }
+
+    /**
+     * 用于捕获用户信息时通过昵称获取不到的异常
+     * @param exception
+     * @return ResultBean
+     */
+    @ExceptionHandler(UserNickNameNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResultBean UserNickNameNotFoundException(UserNickNameNotFoundException exception) {
         return ResultBean.error(exception.getMessage());
     }
 }

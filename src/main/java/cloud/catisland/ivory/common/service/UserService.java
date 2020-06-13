@@ -2,12 +2,16 @@ package cloud.catisland.ivory.common.service;
 
 import java.util.Optional;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cloud.catisland.ivory.common.dao.model.User;
 import cloud.catisland.ivory.common.dao.model.enums.UserRegStatus;
 import cloud.catisland.ivory.common.dao.repository.UserRepository;
+import cloud.catisland.ivory.system.exception.base.UserNickNameNotFoundException;
 import cloud.catisland.ivory.system.model.BO.RegBO;
 
 /**
@@ -48,5 +52,13 @@ public class UserService {
 
 	public User save(User user) {
 		return uRepo.save(user);
+	}
+
+	public User findByNickName(String nickname) throws UserNickNameNotFoundException {
+        Optional<User> userOptn=uRepo.findByNickName(nickname);
+        if(userOptn.isPresent()){
+            throw new UserNickNameNotFoundException();
+        }
+		return userOptn.get();
 	}
 }
