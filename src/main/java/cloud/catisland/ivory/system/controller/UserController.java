@@ -76,7 +76,7 @@ public class UserController {
         @RequestBody UserInfoBO user
         ) {
         //先获取登录用户的ID
-        
+
         //拿出已有用户
         Optional<User> existingItemOptional = userService.findById(user.getUid());
         if (existingItemOptional.isPresent()) {//如果存在
@@ -87,5 +87,9 @@ public class UserController {
             throw new UsernameNotFoundException("该用户不存在");
         }
     }
+
+    //TODO 修改密码的接口
+
+    //TODO 关注某一个好哥哥
     
 }

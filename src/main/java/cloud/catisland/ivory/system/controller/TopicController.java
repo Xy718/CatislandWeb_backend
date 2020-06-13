@@ -23,6 +23,7 @@ public class TopicController {
     @Resource
     private TopicService topicService;
 
+    //TODO 展示贴接口
     /**
      * 展示贴接口
      * @param pageNo
@@ -38,4 +39,17 @@ public class TopicController {
 
         return ResultBean.success(topicService.getTopicsPage(pageNo,pageCount,Sort.by(Direction.DESC , "tid")));
     }
+    
+    //TODO 发布帖子
+    //TODO 删除帖子
+    //TODO 修改帖子
+    //TODO 喜欢/分享
+    //TODO 举报某一个帖子
+    //TODO 查看我的帖子
+    //TODO 查看某个人的帖子，这个可以和查看我的帖子合并
+    //TODO 查看我喜欢的帖子，查看我分享过的帖子
+
+    //TODO 评论帖子，或者回复其他人的评论
+    //TODO 删除某一条评论
+    //TODO 举报某一条评论
 }
