@@ -3,6 +3,7 @@ package cloud.catisland.ivory.system.controller;
 import java.util.Optional;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotEmpty;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,11 +36,28 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @GetMapping("/userinfo")
+    /**
+     * 获取登录用户自身的信息
+     */
+    @GetMapping
     public ResultBean getuserinfo(
 
     ){
-        User user=(User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        return ResultBean.success(user);
+    }
+
+    /**
+     * 通过uid或者username获取其他用户的信息
+     */
+    @GetMapping("/{param}")
+    public ResultBean getuserinfoByIDNAME(
+        @RequestParam("param")
+        @NotEmpty("该参数不允许为空") String param
+    ){
+        User
+        SecurityContext  user = SecurityContextHolder.getContext();
         
         return ResultBean.success(user);
     }
