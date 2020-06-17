@@ -16,7 +16,7 @@ pipeline {
         steps {
             echo '开始部署'
             sh '''
-
+            screen -X -S ivory-backend quit
             '''
             echo '部署结束'
         }

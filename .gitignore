@@ -3,5 +3,7 @@
 bin
 .vscode
 .classpath
-.gitignore
 .project
+.idea
+build
+.gitignore
