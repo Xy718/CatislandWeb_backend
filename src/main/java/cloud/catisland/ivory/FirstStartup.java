@@ -2,8 +2,14 @@ package cloud.catisland.ivory;
 
 import java.io.File;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import cn.hutool.core.io.FileUtil;
@@ -14,6 +20,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class FirstStartup implements ApplicationRunner {
+
+	@Autowired
+	private EntityManager em;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         log.info("检测是否是第一次启动");
@@ -23,9 +33,15 @@ public class FirstStartup implements ApplicationRunner {
 		File lockFIle =	FileUtil.file(filePath);
 		if (!(lockFIle.exists()&&lockFIle.isFile())){
 			log.info("第一次启动");
+			//导入初始sql数据
+			String sqlScript=FileUtil.readString(new ClassPathResource("initdata.sql").getFile(), "UTF8");
+			Query query= em.createNativeQuery(sqlScript);
+			int lins=query.executeUpdate();
+			log.info("改变的行数{}.",lins);
+
+			//写入lock文件
 			FileUtil.touch(lockFIle);
 			FileUtil.writeString("1", lockFIle, "UTF8");
-			//导入初始sql数据
 		} else {
 			FileUtil.writeString(RandomUtil.randomString(8), lockFIle, "UTF8");
 		}
