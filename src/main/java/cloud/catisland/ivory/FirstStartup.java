@@ -5,6 +5,7 @@ import java.io.File;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -24,6 +25,7 @@ public class FirstStartup implements ApplicationRunner {
 	@Autowired
 	private EntityManager em;
 
+	@Transactional
     @Override
     public void run(ApplicationArguments args) throws Exception {
         log.info("检测是否是第一次启动");
@@ -37,7 +39,7 @@ public class FirstStartup implements ApplicationRunner {
 			String sqlScript=FileUtil.readString(new ClassPathResource("initdata.sql").getFile(), "UTF8");
 			Query query= em.createNativeQuery(sqlScript);
 			int lins=query.executeUpdate();
-			log.info("改变的行数{}.",lins);
+			log.info("帖子导入成功：{}条.",lins);
 
 			//写入lock文件
 			FileUtil.touch(lockFIle);
