@@ -19,6 +19,8 @@ pipeline {
             sh '''
             screen -X -S ivory-backend quit
             '''
+          }catch{
+            echo '1'
           }
           sh '''
           screen -S ivory-backend
