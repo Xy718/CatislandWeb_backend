@@ -1,4 +1,8 @@
 pipeline {
+  def remote = [:]
+  remote.name = "ci"
+  remote.host = "81.68.74.125"
+  remote.allowAnyHosts = true
   agent any
   stages {
     stage('构建') {
@@ -7,10 +11,6 @@ pipeline {
       }
     }
     stage('部署') {
-      def remote = [:]
-      remote.name = "ci"
-      remote.host = "81.68.74.125"
-      remote.allowAnyHosts = true
       steps {
           echo '开始部署'
             writeFile file: 'abc.sh', text: 'ls'
