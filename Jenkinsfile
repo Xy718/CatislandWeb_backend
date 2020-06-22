@@ -13,14 +13,15 @@ pipeline {
       }
     }
     stage('部署') {
-        steps {
-            echo '开始部署'
-            sh '''
-            screen -X -S ivory-backend quit
-            '''
-            echo '部署结束'
-        }
-        }
+      steps {
+          echo '开始部署'
+          sh '''
+          screen -X -S ivory-backend quit
+          screen -S ivory-backend
+          '''
+          echo '部署结束'
+      }
+    }
 
     stage('提示') {
       steps {
