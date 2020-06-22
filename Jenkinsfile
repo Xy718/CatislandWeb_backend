@@ -15,8 +15,12 @@ pipeline {
     stage('部署') {
       steps {
           echo '开始部署'
+          try{
+            sh '''
+            screen -X -S ivory-backend quit
+            '''
+          }
           sh '''
-          screen -X -S ivory-backend quit
           screen -S ivory-backend
           '''
           echo '部署结束'
