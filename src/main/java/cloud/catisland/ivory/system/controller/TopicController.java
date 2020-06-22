@@ -37,9 +37,7 @@ public class TopicController {
         @RequestParam("page") Integer pageNo
         ,@RequestParam("count") Integer pageCount
     ){
-        LOGGER.info("giao!");
-        Page<Topic> p=topicService.getTopicsPage(pageNo,pageCount,Sort.by(Direction.DESC , "tid"));
-        return ResultBean.success(p);
+        return ResultBean.success(topicService.getTopicsPage(pageNo,pageCount,Sort.by(Direction.DESC , "tid")));
     }
     
     //TODO 发布帖子
