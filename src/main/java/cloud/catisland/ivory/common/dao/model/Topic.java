@@ -8,6 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.alibaba.fastjson.JSONObject;
@@ -19,6 +22,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import cloud.catisland.ivory.system.model.BO.UserInfoBO;
 import lombok.Data;
 
 /**
@@ -41,11 +45,11 @@ public class Topic {
     private long tid;
 
     // 发布用户ID
-    @Column(nullable = false)
+    @Column(name="uid",nullable = false)
     private long uid;
 
     // 发布用户名
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String user_name;
 
     // 标题
@@ -71,6 +75,10 @@ public class Topic {
     private Date update_time;
 
     //帖子状态 -1/0  删除/正常
-    @Column(nullable = false)
+    @Column(nullable = false) 
     private String status_flag="0";
+
+    @ManyToOne
+    @JoinColumn(name = "uid", insertable = false, updatable = false)
+    private User user;
 }

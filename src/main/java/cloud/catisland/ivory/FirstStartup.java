@@ -3,7 +3,6 @@ package cloud.catisland.ivory;
 import java.io.File;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 

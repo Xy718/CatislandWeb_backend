@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -42,15 +44,18 @@ public class User {
     @Column(name="user_game_uuid",nullable = false)
     private String userGameUUID="";
     //手机号
+    @JsonIgnore
     @Column(name="phone",nullable = false)//, unique = true
     private String phone="";
     //邮箱
     @Column(name="email",nullable = false)//, unique = true
     private String email="";
     //密码(BCrypt加密)
+    @JsonIgnore
     @Column(name="password",nullable = false)
     private String password;
     //密码加密盐
+    @JsonIgnore
     @Column(name="password_salt",nullable = false)
     private String passwordSalt="";
 

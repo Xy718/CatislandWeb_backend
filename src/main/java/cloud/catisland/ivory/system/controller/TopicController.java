@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cloud.catisland.ivory.system.model.BO.ResultBean;
+import cloud.catisland.ivory.common.dao.model.Topic;
 import cloud.catisland.ivory.common.service.TopicService;
 
 @RestController
@@ -36,8 +38,8 @@ public class TopicController {
         ,@RequestParam("count") Integer pageCount
     ){
         LOGGER.info("giao!");
-
-        return ResultBean.success(topicService.getTopicsPage(pageNo,pageCount,Sort.by(Direction.DESC , "tid")));
+        Page<Topic> p=topicService.getTopicsPage(pageNo,pageCount,Sort.by(Direction.DESC , "tid"));
+        return ResultBean.success(p);
     }
     
     //TODO 发布帖子
