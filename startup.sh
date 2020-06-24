@@ -10,7 +10,8 @@ screen_name=ivory
 # #新建screen
 # # screen -S ${screen_name} && ""
 # screen -S $screen_name -p 0 -X stuff "ls^M"
-screen -S ivory
+# screen -S ivory
+nohup java -jar -Xmx500M ${jar_name} &
 echo "screen:${screen_name} 创建完毕"
 
 # screen -x -S $screen_name -X stuff "$cmd"
