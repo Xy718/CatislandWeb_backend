@@ -7,5 +7,6 @@ screen -r -d ${screen_name} && $'\003' #ctrl+c
 screen -X -S ${screen_name} quit
 #新建screen
 screen -S ${screen_name}
+echo "screen 创建完毕"
 #发送命令，启动jar
 screen -r -d ${screen_name} && "java -jar -Xmx500M ${jar_name}\r"
