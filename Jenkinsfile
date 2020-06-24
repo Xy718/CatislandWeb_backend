@@ -28,13 +28,13 @@ pipeline {
                     makeEmptyDirs: false, 
                     noDefaultExcludes: false, 
                     patternSeparator: '[, ]+', 
-                    remoteDirectory: '/root/ci_file', 
+                    remoteDirectory: '/ivory_backend', 
                     remoteDirectorySDF: false, 
                     removePrefix: '', 
-                    sourceFiles: 'build/libs/ivory.jar'
+                    sourceFiles: '**/ivory.jar'
                     )
                 ], 
-                usePromotionTimestamp: false, 
+                usePromotionTimestamp: false,
                 useWorkspaceInPromotion: false, 
                 verbose: false
               )
