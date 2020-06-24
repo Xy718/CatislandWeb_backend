@@ -8,7 +8,7 @@ pipeline {
     }
     stage('打包到制品库') {
       steps {
-        archiveArtifacts 'build/libs/**'
+        archiveArtifacts 'build/libs/**,startup.sh'
       }
     }
     stage('部署') {
@@ -22,7 +22,10 @@ pipeline {
                   sshTransfer(
                     cleanRemote: false, 
                     excludes: '', 
-                    execCommand: 'ls', 
+                    execCommand: '''
+                      ls
+                      ./ci_file/ivory_backend/startup.sh
+                    ''', 
                     execTimeout: 120000, 
                     flatten: false, 
                     makeEmptyDirs: false, 
@@ -31,7 +34,7 @@ pipeline {
                     remoteDirectory: '/ivory_backend', 
                     remoteDirectorySDF: false, 
                     removePrefix: '', 
-                    sourceFiles: '**/ivory.jar'
+                    sourceFiles: 'build/libs/ivory.jar,startup.sh'
                     )
                 ], 
                 usePromotionTimestamp: false,
