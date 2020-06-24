@@ -6,6 +6,11 @@ pipeline {
         sh './gradlew build'
       }
     }
+    stage('打包到制品库') {
+      steps {
+        archiveArtifacts 'build/libs/**'
+      }
+    }
     stage('部署') {
       steps {
           echo '开始部署'
@@ -25,7 +30,8 @@ pipeline {
                     patternSeparator: '[, ]+', 
                     remoteDirectory: '/root/ci_file', 
                     remoteDirectorySDF: false, 
-                    removePrefix: '', sourceFiles: 'ivory.jar'
+                    removePrefix: '', 
+                    sourceFiles: 'build/libs/ivory.jar'
                     )
                 ], 
                 usePromotionTimestamp: false, 
@@ -35,11 +41,6 @@ pipeline {
             ]
           )
           echo '部署结束'
-      }
-    }
-    stage('打包到制品库') {
-      steps {
-        archiveArtifacts 'build/libs/**'
       }
     }
     stage('提示') {
