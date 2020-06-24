@@ -24,6 +24,7 @@ pipeline {
                     excludes: '', 
                     execCommand: '''
                       ls
+                      chmod 777 -R ./ci_file/ivory_backend/
                       ./ci_file/ivory_backend/startup.sh
                     ''', 
                     execTimeout: 120000, 
