@@ -9,7 +9,7 @@ screen -r -d ${screen_name} && $'\003' #ctrl+c
 screen -X -S ${screen_name} quit
 #新建screen
 # screen -S ${screen_name} && ""
-screen -S $screen_name -X stuff "$cmd"
+screen -S $screen_name -p 0 -X stuff "ls^M"
 echo "screen:${screen_name} 创建完毕"
 
 # screen -x -S $screen_name -X stuff "$cmd"
