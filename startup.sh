@@ -7,4 +7,4 @@ screen -S ivory -X stuff 'exit\r'
 #新建screen
 screen -dmS ivory
 #发送命令，启动jar
-screen -r -d ivory stuff "java -jar -Xmx500M ${jar_name}\r
+screen -r -d ivory stuff "java -jar -Xmx500M ${jar_name}\r"
