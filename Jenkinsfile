@@ -9,7 +9,31 @@ pipeline {
     stage('部署') {
       steps {
           echo '开始部署'
-
+          sshPublisher(
+            publishers: [
+              sshPublisherDesc(
+                configName: 'CatIsland', 
+                transfers: [
+                  sshTransfer(
+                    cleanRemote: false, 
+                    excludes: '', 
+                    execCommand: 'ls', 
+                    execTimeout: 120000, 
+                    flatten: false, 
+                    makeEmptyDirs: false, 
+                    noDefaultExcludes: false, 
+                    patternSeparator: '[, ]+', 
+                    remoteDirectory: '/root/ci_file', 
+                    remoteDirectorySDF: false, 
+                    removePrefix: '', sourceFiles: 'ivory.jar'
+                    )
+                ], 
+                usePromotionTimestamp: false, 
+                useWorkspaceInPromotion: false, 
+                verbose: false
+              )
+            ]
+          )
           echo '部署结束'
       }
     }
