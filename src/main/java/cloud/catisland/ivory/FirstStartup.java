@@ -1,6 +1,7 @@
 package cloud.catisland.ivory;
 
 import java.io.File;
+import java.io.Reader;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -14,6 +15,7 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.stereotype.Component;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,7 +38,10 @@ public class FirstStartup implements ApplicationRunner {
 		if (!(lockFIle.exists()&&lockFIle.isFile())){
 			log.info("第一次启动");
 			//导入初始sql数据
-			String sqlScript=FileUtil.readString(new DefaultResourceLoader().getResource("classpath:/initdata.sql").getFile(), "UTF8");
+			Reader sqlReader=IoUtil.getReader(
+				new DefaultResourceLoader().getResource("classpath:/initdata.sql").getInputStream(),"UTF8");
+			String sqlScript=IoUtil.read(sqlReader);
+			sqlReader.close();
 			Query query= em.createNativeQuery(sqlScript);
 			int lins=query.executeUpdate();
 			log.info("帖子导入成功：{}条.",lins);
