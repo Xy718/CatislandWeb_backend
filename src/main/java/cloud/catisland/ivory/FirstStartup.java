@@ -35,7 +35,7 @@ public class FirstStartup implements ApplicationRunner {
 		if (!(lockFIle.exists()&&lockFIle.isFile())){
 			log.info("第一次启动");
 			//导入初始sql数据
-			String sqlScript=FileUtil.readString(new ClassPathResource("initdata.sql").getFile(), "UTF8");
+			String sqlScript=FileUtil.readString(new ClassPathResource("classpath:/initdata.sql").getFile(), "UTF8");
 			Query query= em.createNativeQuery(sqlScript);
 			int lins=query.executeUpdate();
 			log.info("帖子导入成功：{}条.",lins);

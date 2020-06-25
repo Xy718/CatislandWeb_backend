@@ -10,11 +10,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cloud.catisland.ivory.system.model.BO.ResultBean;
+import cloud.catisland.ivory.system.model.BO.TopicBO;
 import cloud.catisland.ivory.common.dao.model.Topic;
 import cloud.catisland.ivory.common.service.TopicService;
 
@@ -41,6 +44,12 @@ public class TopicController {
     }
     
     //TODO 发布帖子
+    @PostMapping
+    public ResultBean addTopic(
+        @RequestBody TopicBO topicBO
+    ){
+        return ResultBean.success();
+    }
     //TODO 删除帖子
     //TODO 修改帖子
     //TODO 喜欢/分享

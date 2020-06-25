@@ -26,7 +26,7 @@ import cloud.catisland.ivory.system.model.BO.UserInfoBO;
 import lombok.Data;
 
 /**
-/* 展示贴orm对象
+ * 展示贴orm对象
  * @Author: Xy718
  * @Date: 2020-05-25 21:13:21
  * @LastEditors: Xy718
