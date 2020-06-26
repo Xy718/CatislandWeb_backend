@@ -2,6 +2,8 @@ package cloud.catisland.ivory;
 
 import java.io.File;
 import java.io.Reader;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -40,11 +42,14 @@ public class FirstStartup implements ApplicationRunner {
 			//导入初始sql数据
 			Reader sqlReader=IoUtil.getReader(
 				new DefaultResourceLoader().getResource("classpath:/initdata.sql").getInputStream(),"UTF8");
-			String sqlScript=IoUtil.read(sqlReader);
+			String sqlScripts=IoUtil.read(sqlReader);
 			sqlReader.close();
-			Query query= em.createNativeQuery(sqlScript);
-			int lins=query.executeUpdate();
-			log.info("帖子导入成功：{}条.",lins);
+			List<String> sqls=Arrays.asList(sqlScripts.split(";"));
+			sqls.forEach(sql->{
+				Query query= em.createNativeQuery(sql+";");
+				int lins=query.executeUpdate();
+				log.info("导入成功：{}条.",lins);
+			});
 
 			//写入lock文件
 			FileUtil.touch(lockFIle);

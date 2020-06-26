@@ -45,7 +45,7 @@ public class Topic {
     private long tid;
 
     // 发布用户ID
-    @Column(name="uid",nullable = false)
+    @Column(nullable = false,unique = false)
     private long uid;
 
     // 发布用户名
