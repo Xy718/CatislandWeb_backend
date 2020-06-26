@@ -38,7 +38,7 @@ public class FirstStartup implements ApplicationRunner {
 		log.info("The lock file on {}.",filePath.toString());
 		File lockFIle =	FileUtil.file(filePath);
 		if (!(lockFIle.exists()&&lockFIle.isFile())){
-			log.info("第一次启动");
+			log.info("第一次启动"); 
 			//导入初始sql数据
 			Reader sqlReader=IoUtil.getReader(
 				new DefaultResourceLoader().getResource("classpath:/initdata.sql").getInputStream(),"UTF8");
