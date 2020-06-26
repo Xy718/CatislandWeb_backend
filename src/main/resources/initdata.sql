@@ -7,6 +7,8 @@ INSERT INTO catisland_ivory.topic (tid,content,create_time,imgs,status_flag,titl
 ;
 
 -- 用户数据
-INSERT INTO catisland_ivory.`user` (`uid`,avatar,email,nick_name,'password','password_salt',phone,user_game_id,user_game_uuid,`user_name`) VALUES 
+INSERT INTO catisland_ivory.user 
+(`uid`,avatar,email,nick_name,`password`,`password_salt`,phone,user_game_id,user_game_uuid,`user_name`) 
+VALUES 
 (0,'/assets/img/xy718_logo.jpg','869839000@qq.com','Xy718','{bcrypt}$2a$10$t8vTbC4BN0BI1ir6LagqNOIdK29k92ROKv2dP6YbwScxvGbdU54dO','0rnkhrbm','','','','Xy718')
 ;
