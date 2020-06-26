@@ -32,7 +32,7 @@ public class FirstStartup implements ApplicationRunner {
 	@Transactional
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        log.info("检测是否是第一次启动");
+        log.info("检测是否是第一次启动"); 
 
         String filePath = System.getenv("SystemDrive")+"/root/.ivory/initialized";
 		log.info("The lock file on {}.",filePath.toString());
