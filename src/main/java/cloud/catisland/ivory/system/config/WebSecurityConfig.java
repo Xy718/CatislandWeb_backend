@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -45,12 +46,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	UserService userService;
 
-	protected void configure(HttpSecurity http) throws Exception {
+	protected void configure(HttpSecurity http,WebSecurity web) throws Exception {
 		http
 			//TODO 所有的url过滤链
 			.authorizeRequests()
 		        .antMatchers("/image/**").permitAll()
-		        .antMatchers("/topic/**").permitAll()
 		        .antMatchers("/user/**").permitAll()
 		        .antMatchers("/auth/**").permitAll()
 		        .antMatchers("/admin/**").hasAnyRole("ADMIN")
@@ -87,7 +87,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 			;
 			// .and()
 			
-		    // .sessionManagement().disable();
+			// .sessionManagement().disable();
+			
+		web.ignoring().antMatchers("/topic/all"); 
 	}
 	
 	@Override

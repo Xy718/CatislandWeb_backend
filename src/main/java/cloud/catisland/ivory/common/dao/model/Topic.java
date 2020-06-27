@@ -14,6 +14,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
 
 import org.hibernate.annotations.Type;
@@ -74,7 +75,8 @@ public class Topic {
     @Column(nullable = false) 
     private String status_flag="0";
 
-    // @ManyToOne
-    // @JoinColumn(name = "uid", insertable = false, updatable = false)
-    // private User user;
+    @ManyToOne
+    @JoinColumn(name="user_uid")
+    private User user;
 }
+

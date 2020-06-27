@@ -37,8 +37,8 @@ public class TopicController {
      */
     @GetMapping("/all")
     public ResultBean getTopics(
-        @RequestParam("page") Integer pageNo
-        ,@RequestParam("count") Integer pageCount
+        @RequestParam(value ="page",defaultValue = "0") Integer pageNo
+        ,@RequestParam(value ="count",defaultValue = "5") Integer pageCount
     ){
         return ResultBean.success(topicService.getTopicsPage(pageNo,pageCount,Sort.by(Direction.DESC , "tid")));
     }
