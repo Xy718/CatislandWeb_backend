@@ -48,10 +48,6 @@ public class Topic {
     @Column(nullable = false,unique = false)
     private long uid;
 
-    // 发布用户名
-    @Column(nullable = false)
-    private String user_name;
-
     // 标题
     @Column
     private String title;
@@ -78,7 +74,7 @@ public class Topic {
     @Column(nullable = false) 
     private String status_flag="0";
 
-    @ManyToOne
-    @JoinColumn(name = "uid", insertable = false, updatable = false)
-    private User user;
+    // @ManyToOne
+    // @JoinColumn(name = "uid", insertable = false, updatable = false)
+    // private User user;
 }
