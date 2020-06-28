@@ -3,15 +3,19 @@ package cloud.catisland.ivory.common.dao.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -45,9 +49,9 @@ public class Topic {
     @GeneratedValue
     private long tid;
 
-    // 发布用户ID
-    @Column(nullable = false,unique = false)
-    private long uid;
+    // // 发布用户ID
+    // @Column(name="uid",nullable = false,unique = false)
+    // private long uid;
 
     // 标题
     @Column
@@ -75,8 +79,9 @@ public class Topic {
     @Column(nullable = false) 
     private String status_flag="0";
 
-    @ManyToOne
-    @JoinColumn(name="user_uid")
+    // @Transient
+    @ManyToOne //(targetEntity =User.class , cascade=CascadeType.ALL)
+    @JoinColumn(name="uid",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))//,insertable = false,updatable = false,nullable = false,unique = false)
     private User user;
 }
 

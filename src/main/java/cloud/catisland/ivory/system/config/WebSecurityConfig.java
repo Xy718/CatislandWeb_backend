@@ -46,11 +46,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	UserService userService;
 
-	protected void configure(HttpSecurity http,WebSecurity web) throws Exception {
-		http
-			//TODO 所有的url过滤链
+	@Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/topic/**");
+	}
+	
+	protected void configure(HttpSecurity http) throws Exception {
+		http		//TODO 所有的url过滤链
 			.authorizeRequests()
 		        .antMatchers("/image/**").permitAll()
+		        // .antMatchers("/topic/**").permitAll()
 		        .antMatchers("/user/**").permitAll()
 		        .antMatchers("/auth/**").permitAll()
 		        .antMatchers("/admin/**").hasAnyRole("ADMIN")
@@ -88,8 +93,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 			// .and()
 			
 			// .sessionManagement().disable();
-			
-		web.ignoring().antMatchers("/topic/all"); 
 	}
 	
 	@Override
