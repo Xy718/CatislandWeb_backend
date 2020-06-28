@@ -63,6 +63,9 @@ public class User {
     @Column(name="avatar")
     private String avatar="";
 
+    @Column(name="userintro")
+    private String userintro="";
+
     /**
      * 根据传入的RegBO创建一个待保存的新用户对象
      */
