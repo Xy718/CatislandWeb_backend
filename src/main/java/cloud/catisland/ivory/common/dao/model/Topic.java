@@ -80,8 +80,8 @@ public class Topic {
     private String status_flag="0";
 
     // @Transient
-    @ManyToOne //(targetEntity =User.class , cascade=CascadeType.ALL)
-    @JoinColumn(name="uid",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))//,insertable = false,updatable = false,nullable = false,unique = false)
-    private User user;
+    @ManyToOne
+    @JoinColumn(name="uid",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))
+    private User pub_userinfo;
 }
 
