@@ -13,6 +13,7 @@ cd ci_file/ivory_backend
 # else
 #     echo "端口未被占用";
 # fi
+#停止已在运行的api
 screen -S ivory -X stuff '^C\n'
 screen -X -S ivory quit
 screen -dmS ivory
