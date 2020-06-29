@@ -63,8 +63,13 @@ public class User {
     @Column(name="avatar")
     private String avatar="";
 
+    //用户简介
     @Column(name="userintro")
     private String userintro="";
+
+    // @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
+    // @JoinTable(name = "m_user_role", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    // private Set<Role> roles = new HashSet<>();
 
     /**
      * 根据传入的RegBO创建一个待保存的新用户对象
