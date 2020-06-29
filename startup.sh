@@ -16,4 +16,4 @@ cd ci_file/ivory_backend
 screen -S ivory -X stuff '^C\n'
 screen -X -S ivory quit
 screen -dmS ivory
-screen -x -S ivory -X stuff "java -jar -Xmx500M ${jar_name}"
+screen -x -S ivory -X stuff "java -jar -Xmx500M ${jar_name} \n"
