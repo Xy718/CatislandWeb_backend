@@ -48,14 +48,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
 	@Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/topic/**");
+        // web.ignoring().antMatchers("/topic/**");
 	}
 	
 	protected void configure(HttpSecurity http) throws Exception {
 		http		//TODO 所有的url过滤链
 			.authorizeRequests()
 		        .antMatchers("/image/**").permitAll()
-		        // .antMatchers("/topic/**").permitAll()
+		        .antMatchers("/topic/**").permitAll()
 		        .antMatchers("/user/**").permitAll()
 		        .antMatchers("/auth/**").permitAll()
 		        .antMatchers("/admin/**").hasAnyRole("ADMIN")
