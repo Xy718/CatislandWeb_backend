@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,8 +66,9 @@ public class UserController {
      */
     @GetMapping("/{nickname}")
     public ResultBean getuserinfoByNickName(
-            @RequestParam("nickname") 
-            @Valid @NotEmpty(message = "该参数不允许为空") String nickname)
+            //TODO 这里处理一下
+            @PathVariable("nickname")
+            @NotEmpty(message = "该参数不允许为空") String nickname)
             throws UserNickNameNotFoundException {
         User user=userService.findByNickName(nickname);
         
