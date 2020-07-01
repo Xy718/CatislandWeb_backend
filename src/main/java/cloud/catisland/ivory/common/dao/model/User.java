@@ -92,11 +92,11 @@ public class User {
      * @param userInfo
      */
 	public void mergeFromBO(UserInfoBO userInfo) {
-        if(StringUtils.isBlank(userInfo.getUser_name())){
-            this.userName=userInfo.getUser_name();
+        if(StringUtils.isBlank(userInfo.getUserName())){
+            this.userName=userInfo.getUserName();
         }
-        if(StringUtils.isBlank(userInfo.getUser_game_id())){
-            this.userGameID=userInfo.getUser_game_id();
+        if(StringUtils.isBlank(userInfo.getUserGameID())){
+            this.userGameID=userInfo.getUserGameID();
         }
     }
 }

@@ -45,11 +45,11 @@ public class FirstStartup implements ApplicationRunner {
 			String sqlScripts=IoUtil.read(sqlReader);
 			sqlReader.close();
 			List<String> sqls=Arrays.asList(sqlScripts.split(";"));
-			sqls.forEach(sql->{
-				Query query= em.createNativeQuery(sql+";");
+			for(int i=0;i<sqls.size()-1;i++){
+				Query query= em.createNativeQuery(sqls.get(i)+";");
 				int lins=query.executeUpdate();
 				log.info("导入成功：{}条.",lins);
-			});
+			};
 
 			//写入lock文件
 			FileUtil.touch(lockFIle);

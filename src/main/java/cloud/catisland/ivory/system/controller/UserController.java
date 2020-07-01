@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,12 +45,17 @@ public class UserController {
      * 获取登录用户自身的信息
      */
     @GetMapping
-    public ResultBean getuserinfo(
+    public ResponseEntity<ResultBean> getuserinfo(
 
     ) {
         Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        return ResultBean.success(user);
+        if(user.equals("anonymousUser")){
+            //匿名用户
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResultBean.error("请先登录"));
+        }else{
+            User u=userService.findByUserName(((UserDetails)user).getUsername()).get();
+            return ResponseEntity.ok(ResultBean.success(new UserInfoBO(u)));
+        }
     }
 
     /**
