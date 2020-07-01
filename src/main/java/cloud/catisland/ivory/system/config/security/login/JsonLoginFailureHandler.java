@@ -13,14 +13,16 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import cloud.catisland.ivory.system.model.BO.ResultBean;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Json登陆失败处理程序
  * @Author: Xy718
  * @Date: 2020-05-24 23:28:06
  * @LastEditors: Xy718
- * @LastEditTime: 2020-06-04 13:52:09
+ * @LastEditTime: 2020-07-01 09:57:55
  */
+@Slf4j
 public class JsonLoginFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(
@@ -28,7 +30,7 @@ public class JsonLoginFailureHandler implements AuthenticationFailureHandler {
         , HttpServletResponse response
         ,AuthenticationException exception
             ) throws IOException, ServletException {
-        System.out.println(request.getRemoteAddr()+" UNAUTHORIZED");
+        log.info(request.getRemoteAddr()+" UNAUTHORIZED");
         // response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.getWriter()
             .write(JSON.toJSONString(ResultBean.error("登陆失败，用户名或密码不正确")));
