@@ -70,7 +70,7 @@ public class AuthController {
      * @param tokenModel
      * @return
      */
-    @RequestMapping(value="/verifytoken",method = RequestMethod.POST)
+    @RequestMapping(value="/verifytoken")
     public ResultBean verifytoken(
         @RequestBody JWTModel tokenModel
         ){
