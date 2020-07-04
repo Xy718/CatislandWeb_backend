@@ -70,7 +70,7 @@ public class AuthController {
      * @return
      */
     @PostMapping("/verifytoken")
-    public ResultBean reg(
+    public ResultBean verifytoken(
         @RequestBody JWTModel tokenModel
         ){
         Map<String,Boolean> m=new HashMap<String,Boolean>();
