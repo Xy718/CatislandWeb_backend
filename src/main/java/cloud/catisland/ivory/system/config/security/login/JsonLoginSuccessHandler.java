@@ -39,7 +39,7 @@ public class JsonLoginSuccessHandler implements AuthenticationSuccessHandler {
         ,HttpServletResponse response
         ,Authentication authentication
         ) throws IOException, ServletException {
-        log.info("用户 {} 登录成功",((UserDetails)authentication.getPrincipal()).getPassword());
+        log.info("用户 {} 登录成功",((UserDetails)authentication.getPrincipal()).getUsername());
         //生成token，并把token加密相关信息缓存
         String token = jwtUserService.saveUserLoginInfo((UserDetails)authentication.getPrincipal());
         response.setHeader("Authorization", token);
