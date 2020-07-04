@@ -48,15 +48,15 @@ public class JwtUserService implements UserDetailsService {
 	}
 
 	public UserDetails getUserLoginInfo(String username) {
-		Optional<cloud.catisland.ivory.common.dao.model.User> u = uService.findByUserName(username);
-		String salt = u.isPresent()?BCrypt.gensalt():u.get().getPasswordSalt();
+		// Optional<cloud.catisland.ivory.common.dao.model.User> u = uService.findByUserName(username);
+		// String salt = u.isPresent()?BCrypt.gensalt():u.get().getPasswordSalt();
     	//TODO 从数据库或者缓存中取出jwt token生成时用的salt
     	// salt = redisTemplate.opsForValue().get("token:"+username); 	
     	UserDetails user = loadUserByUsername(username);
     	//将salt放到password字段返回
 		return User.builder()
 				.username(user.getUsername())
-				.password(salt)
+				.password(user.getPassword())//TODO or salt
 				.authorities(user.getAuthorities())
 				.build();
 	}

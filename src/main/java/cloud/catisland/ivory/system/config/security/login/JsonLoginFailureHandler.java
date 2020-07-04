@@ -30,8 +30,9 @@ public class JsonLoginFailureHandler implements AuthenticationFailureHandler {
         , HttpServletResponse response
         ,AuthenticationException exception
             ) throws IOException, ServletException {
-        log.info(request.getRemoteAddr()+" UNAUTHORIZED");
+        log.info(request.getRemoteAddr()+" UNAUTHORIZED "+exception.getMessage());
         // response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setContentType("application/json");
         response.getWriter()
             .write(JSON.toJSONString(ResultBean.error("登陆失败，用户名或密码不正确")));
     }   
