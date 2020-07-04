@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('构建') {
       steps {
-        sh './gradlew build'
+        sh './gradlew build -Dprofile=prod'
       }
     }
     stage('打包到制品库') {
