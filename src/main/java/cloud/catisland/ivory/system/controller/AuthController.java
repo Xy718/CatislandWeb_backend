@@ -53,11 +53,12 @@ public class AuthController {
         @Valid @RequestBody RegBO regBO
         ) throws UserAlreadyRegisteredException {
 
-        LOGGER.info(uService.checkUserRegedByUsername(regBO.getUsername()).name());
+        LOGGER.info("用户名 {} 的注册状态:{}",regBO.getUsername(),uService.checkUserRegedByUsername(regBO.getUsername()).name());
         if(uService.checkUserRegedByUsername(regBO.getUsername()).equals(UserRegStatus.REGED)){
             throw new UserAlreadyRegisteredException(regBO);
         }
         Optional<User> u = uService.registUser(regBO);
+        LOGGER.info("注册成功？"+u.isPresent());
         return u.isPresent()?
             ResultBean.success("注册成功！",u.get()):
             ResultBean.error("注册失败！Save错误");

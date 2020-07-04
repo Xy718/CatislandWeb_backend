@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 import cloud.catisland.ivory.common.service.JwtUserService;
 import cloud.catisland.ivory.system.model.BO.ResultBean;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 登陆成功的处理程序
@@ -23,6 +24,7 @@ import cloud.catisland.ivory.system.model.BO.ResultBean;
  * @LastEditors: Xy718
  * @LastEditTime: 2020-06-10 16:26:50
  */
+@Slf4j
 public class JsonLoginSuccessHandler implements AuthenticationSuccessHandler {
     
     private JwtUserService jwtUserService;
@@ -37,6 +39,7 @@ public class JsonLoginSuccessHandler implements AuthenticationSuccessHandler {
         ,HttpServletResponse response
         ,Authentication authentication
         ) throws IOException, ServletException {
+        log.info("用户 {} 登录成功",((UserDetails)authentication.getPrincipal()).getPassword());
         //生成token，并把token加密相关信息缓存
         String token = jwtUserService.saveUserLoginInfo((UserDetails)authentication.getPrincipal());
         response.setHeader("Authorization", token);

@@ -43,7 +43,7 @@ public class UserService {
     }
 
 	public Optional<User> findByUserName(String username) {
-		return Optional.of(uRepo.findByUserName(username));
+		return Optional.ofNullable(uRepo.findByUserName(username));
 	}
 
 	public Optional<User> findById(long uid) {
