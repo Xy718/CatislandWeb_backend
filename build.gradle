@@ -1,4 +1,3 @@
-import org.springframework.boot.gradle.tasks.run.BootRun
 plugins {
     id 'org.springframework.boot' version '2.3.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
@@ -46,20 +45,16 @@ dependencies {
 test {
     useJUnitPlatform()
 }
-task prod(type: BootRun)  {
-    classpath = sourceSets.main.runtimeClasspath
-    main= 'cloud.catisland.ivory.IvoryTowerApplication'
-    systemProperty 'spring.profiles.active', 'prod'
- }
 
-task boottest(type: BootRun)  {
-    classpath = sourceSets.main.runtimeClasspath
-    // main= 's.Application'
-    systemProperty 'spring.profiles.active', 'test'
-}
-
-task dev(type: BootRun)  {
-    classpath = sourceSets.main.runtimeClasspath
-    main= 'cloud.catisland.ivory.IvoryTowerApplication'
-    systemProperty 'spring.profiles.active', 'dev'
+def env=System.getProperty("profile") ?:"dev"
+bootJar {
+   doFirst {
+        def file=new File("${buildDir}/resources/main/application.properties")
+        println("正在编译jar包---环境[${env}]")
+        file.newWriter(false).with {
+            it.write("spring.profiles.active=${env}")
+            it.flush()
+            it.close()
+        }
+   }
 }

@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('构建') {
       steps {
-        sh './gradlew build -Dprofile=prod'
+        sh './gradlew clean bootJar -Dprofile=prod'
       }
     }
     stage('打包到制品库') {
