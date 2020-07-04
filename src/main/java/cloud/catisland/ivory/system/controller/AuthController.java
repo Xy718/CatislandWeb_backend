@@ -20,7 +20,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import cloud.catisland.ivory.common.dao.model.User;
@@ -70,7 +69,7 @@ public class AuthController {
      * @param tokenModel
      * @return
      */
-    @RequestMapping(value="/verifytoken")
+    @PostMapping("/verifytoken")
     public ResultBean verifytoken(
         @RequestBody JWTModel tokenModel
         ){
