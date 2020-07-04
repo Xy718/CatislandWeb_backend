@@ -1,10 +1,18 @@
 package cloud.catisland.ivory.system.controller;
 
 import java.io.Console;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cloud.catisland.ivory.common.dao.model.User;
 import cloud.catisland.ivory.common.dao.model.enums.UserRegStatus;
+import cloud.catisland.ivory.common.service.JwtUserService;
 import cloud.catisland.ivory.common.service.UserService;
+import cloud.catisland.ivory.common.util.JwtAuthenticationToken;
 import cloud.catisland.ivory.system.exception.base.UserAlreadyRegisteredException;
 import cloud.catisland.ivory.system.model.BO.RegBO;
 import cloud.catisland.ivory.system.model.BO.ResultBean;
+import cloud.catisland.ivory.system.model.pojo.JWTModel;
 
 /**
  * @Author: Xy718
@@ -53,4 +64,34 @@ public class AuthController {
             
     }
     
+    /**
+     * 
+     * @param tokenModel
+     * @return
+     */
+    @PostMapping("/verifytoken")
+    public ResultBean reg(
+        @RequestBody JWTModel tokenModel
+        ){
+        Map<String,Boolean> m=new HashMap<String,Boolean>();
+        Boolean isvered=false;
+        try {
+            DecodedJWT jwt = JWT.decode(tokenModel.getJwt());
+            Optional<User> u=uService.findByUserName(jwt.getSubject());
+            Algorithm algorithm = Algorithm.HMAC256(u.isPresent()?u.get().getPassword():"");
+            JWTVerifier verifier = JWT.require(algorithm)
+                    .withSubject(jwt.getSubject())
+                    .build();
+            verifier.verify(tokenModel.getJwt());
+            if(jwt.getExpiresAt().after(Calendar.getInstance().getTime())){
+                isvered=true;
+            }
+            isvered=true;
+        } catch (Exception e) {
+            //校验失败
+            isvered=false;
+        }
+        m.put("verified",isvered);
+        return ResultBean.success("",m);
+    }
 }

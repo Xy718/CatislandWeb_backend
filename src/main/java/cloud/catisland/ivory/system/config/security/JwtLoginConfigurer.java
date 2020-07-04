@@ -22,6 +22,7 @@ public class JwtLoginConfigurer<T extends JwtLoginConfigurer<T, B>, B extends Ht
     public void configure(B http) throws Exception {
         authFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
         authFilter.setAuthenticationFailureHandler(new JsonLoginFailureHandler());
+        //TODO 添加匿名访问url
         //将filter放到logoutFilter之前
         JwtAuthenticationFilter filter = postProcess(authFilter);
         http.addFilterBefore(filter, LogoutFilter.class);
