@@ -21,9 +21,32 @@ import java.util.List;
 @RestControllerAdvice
 public class AuthExceptionHandler {
 
+    /**
+     * 用于捕获账号已被注册的异常
+     */
     @ExceptionHandler(UserAlreadyRegisteredException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResultBean uArdRegExpHendler(UserAlreadyRegisteredException exception) {
+        return ResultBean.error(exception.getMessage());
+    }
+
+    /**
+     * 同于捕获查找不到登录的用户的异常
+     */
+    @ExceptionHandler(LoginUserNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResultBean loginUserNotFoundException(LoginUserNotFoundException exception) {
+        return ResultBean.error(exception.getMessage());
+    }
+
+    /**
+     * 用于捕获用户名密码错误的异常
+     * @param exception
+     * @return ResultBean
+     */
+    @ExceptionHandler(UserPassErrorException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResultBean UserPassErrorException(UserPassErrorException exception) {
         return ResultBean.error(exception.getMessage());
     }
 }

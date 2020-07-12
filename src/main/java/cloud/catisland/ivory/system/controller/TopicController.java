@@ -27,6 +27,8 @@ public class TopicController {
     private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
     @Resource
     private TopicService topicService;
+    @Resource
+    private UserService userService;
 
     //TODO 展示贴接口
     /**
@@ -55,6 +57,14 @@ public class TopicController {
     //TODO 喜欢/分享
     //TODO 举报某一个帖子
     //TODO 查看我的帖子
+    @GetMapping("/me")
+    public ResultBean getMineTopics(
+        @RequestParam(value ="page",defaultValue = "0") Integer pageNo
+        ,@RequestParam(value ="count",defaultValue = "5") Integer pageCount
+    ){
+        User u=userService.getLoginUserORException();
+        return ResultBean.success(topicService.getTopicsPage(pageNo,pageCount,Sort.by(Direction.DESC , "tid")));
+    }
     //TODO 查看某个人的帖子，这个可以和查看我的帖子合并
     //TODO 查看我喜欢的帖子，查看我分享过的帖子
 

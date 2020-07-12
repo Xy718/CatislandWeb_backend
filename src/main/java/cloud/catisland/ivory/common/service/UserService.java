@@ -61,4 +61,15 @@ public class UserService {
         }
 		return userOptn.get();
 	}
+
+    public User getLoginUserORException(){
+        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(user.equals("anonymousUser")){
+            //匿名用户
+            throw new LoginUserNotFoundException();
+        }else{
+            return userService.findByUserName(((UserDetails)user).getUsername()).get();
+        }
+    }
+
 }

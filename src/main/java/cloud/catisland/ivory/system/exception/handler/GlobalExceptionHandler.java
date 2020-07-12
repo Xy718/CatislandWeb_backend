@@ -33,17 +33,6 @@ public class GlobalExceptionHandler {
 
         return ResultBean.error(allErrors.get(0).getDefaultMessage());
     }
-    
-    /**
-     * 用于捕获用户名密码错误的异常
-     * @param exception
-     * @return ResultBean
-     */
-    @ExceptionHandler(UserPassErrorException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResultBean UserPassErrorException(UserPassErrorException exception) {
-        return ResultBean.error(exception.getMessage());
-    }
 
     /**
      * 用于捕获用户信息时通过昵称获取不到的异常
