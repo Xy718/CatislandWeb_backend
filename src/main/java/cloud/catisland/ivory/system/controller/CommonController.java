@@ -1,5 +1,9 @@
 package cloud.catisland.ivory.system.controller;
 
+import org.springframework.web.bind.annotation.PostMapping;
+
+import cloud.catisland.ivory.system.model.BO.ResultBean;
+
 /**
  * 通用请求
  * @Author: Xy718
@@ -9,4 +13,11 @@ package cloud.catisland.ivory.system.controller;
  */
 public class CommonController {
     
+    //TODO 上传文件
+    @PostMapping()
+    public ResultBean upImg(
+        
+    ){
+        return null;
+    }
 }
