@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import cloud.catisland.ivory.system.exception.base.LoginUserNotFoundException;
 import cloud.catisland.ivory.system.model.BO.ResultBean;
 import cloud.catisland.ivory.system.model.BO.TopicBO;
 import cloud.catisland.ivory.common.dao.model.Topic;
+import cloud.catisland.ivory.common.dao.model.User;
 import cloud.catisland.ivory.common.service.TopicService;
+import cloud.catisland.ivory.common.service.UserService;
 
 @RestController
 @RequestMapping("/topic")
@@ -30,39 +33,42 @@ public class TopicController {
     @Resource
     private UserService userService;
 
-    //TODO 展示贴接口
+    // TODO 展示贴接口
     /**
      * 展示贴接口
+     * 
      * @param pageNo
      * @param pageCount
      * @return
      */
     @GetMapping("/all")
-    public ResultBean getTopics(
-        @RequestParam(value ="page",defaultValue = "0") Integer pageNo
-        ,@RequestParam(value ="count",defaultValue = "5") Integer pageCount
-    ){
-        return ResultBean.success(topicService.getTopicsPage(pageNo,pageCount,Sort.by(Direction.DESC , "tid")));
+    public ResultBean getTopics(@RequestParam(value = "page", defaultValue = "0") Integer pageNo,
+            @RequestParam(value = "count", defaultValue = "5") Integer pageCount) {
+        return ResultBean.success(topicService.getTopicsPage(pageNo, pageCount, Sort.by(Direction.DESC, "tid")));
     }
-    
-    //TODO 发布帖子
+
+    // TODO 发布帖子
     @PostMapping
-    public ResultBean addTopic(
-        @RequestBody TopicBO topicBO
-    ){
+    public ResultBean addTopic(@RequestBody TopicBO topicBO) {
         return ResultBean.success();
     }
-    //TODO 删除帖子
-    //TODO 修改帖子
-    //TODO 喜欢/分享
-    //TODO 举报某一个帖子
-    //TODO 查看我的帖子
+
+    // TODO 删除帖子
+    // TODO 修改帖子
+    // TODO 喜欢/分享
+    // TODO 举报某一个帖子
+    // TODO 查看我的帖子
     @GetMapping("/me")
     public ResultBean getMineTopics(
-        @RequestParam(value ="page",defaultValue = "0") Integer pageNo
-        ,@RequestParam(value ="count",defaultValue = "5") Integer pageCount
-    ){
-        User u=userService.getLoginUserORException();
+        @RequestParam(value = "page", defaultValue = "0") Integer pageNo,
+        @RequestParam(value = "count", defaultValue = "5") Integer pageCount
+    ) {
+        try {
+            User u = userService.getLoginUserORException();
+        } catch (LoginUserNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return ResultBean.success(topicService.getTopicsPage(pageNo,pageCount,Sort.by(Direction.DESC , "tid")));
     }
     //TODO 查看某个人的帖子，这个可以和查看我的帖子合并

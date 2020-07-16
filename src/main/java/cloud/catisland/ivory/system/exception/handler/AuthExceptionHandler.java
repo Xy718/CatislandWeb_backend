@@ -6,7 +6,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import ch.qos.logback.core.encoder.EchoEncoder;
+import cloud.catisland.ivory.system.exception.base.LoginUserNotFoundException;
 import cloud.catisland.ivory.system.exception.base.UserAlreadyRegisteredException;
+import cloud.catisland.ivory.system.exception.base.UserPassErrorException;
 import cloud.catisland.ivory.system.model.BO.ResultBean;
 
 import java.util.List;

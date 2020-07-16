@@ -6,11 +6,14 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import cloud.catisland.ivory.common.dao.model.User;
 import cloud.catisland.ivory.common.dao.model.enums.UserRegStatus;
 import cloud.catisland.ivory.common.dao.repository.UserRepository;
+import cloud.catisland.ivory.system.exception.base.LoginUserNotFoundException;
 import cloud.catisland.ivory.system.exception.base.UserNickNameNotFoundException;
 import cloud.catisland.ivory.system.model.BO.RegBO;
 
@@ -43,7 +46,7 @@ public class UserService {
     }
 
 	public Optional<User> findByUserName(String username) {
-		return Optional.ofNullable(uRepo.findByUserName(username));
+		return uRepo.findByUserName(username);
 	}
 
 	public Optional<User> findById(long uid) {
@@ -62,13 +65,13 @@ public class UserService {
 		return userOptn.get();
 	}
 
-    public User getLoginUserORException(){
+    public User getLoginUserORException() throws LoginUserNotFoundException {
         Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(user.equals("anonymousUser")){
             //匿名用户
             throw new LoginUserNotFoundException();
         }else{
-            return userService.findByUserName(((UserDetails)user).getUsername()).get();
+            return uRepo.findByUserName(((UserDetails)user).getUsername()).orElseThrow(LoginUserNotFoundException::new);
         }
     }
 
