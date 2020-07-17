@@ -54,7 +54,7 @@ public class UserController {
             //匿名用户
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResultBean.error("请先登录"));
         }else{
-            User u=userService.findByUserName(((UserDetails)user).getUsername()).get();
+            User u=userService.getLoginUserORException();
             return ResponseEntity.ok(ResultBean.success(new UserInfoBO(u)));
         }
     }
@@ -84,20 +84,29 @@ public class UserController {
         @RequestBody UserInfoBO user
         ) {
         //先获取登录用户的ID
-
-        //拿出已有用户
-        Optional<User> existingItemOptional = userService.findById(user.getUid());
-        if (existingItemOptional.isPresent()) {//如果存在
-            User existingItem = existingItemOptional.get();
-            existingItem.mergeFromBO(user);
-            return new ResponseEntity<UserInfoBO>(new UserInfoBO(userService.save(existingItem)), HttpStatus.OK);
-        } else {
-            throw new UsernameNotFoundException("该用户不存在");
-        }
+        User u=userService.getLoginUserORException();
+        //合并到用户
+        u.mergeFromBO(user);
+        return new ResponseEntity<UserInfoBO>(new UserInfoBO(userService.save(u)), HttpStatus.OK);
     }
 
     //TODO 修改密码的接口
 
     //TODO 关注某一个好哥哥
     
+    //TODO 修改头像
+    @PostMapping("/avatar")
+    public ResultBean changeAvatar(
+        @RequestParam("type")String type,
+        @requestBody AvatarBody avatar
+    ){
+        //接受图片文件
+
+        //上传到USS
+
+        //写库，更新数据
+
+        //返回
+        return ResultBean.success("");
+    }
 }
