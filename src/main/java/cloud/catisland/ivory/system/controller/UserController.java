@@ -80,14 +80,14 @@ public class UserController {
      * 如果未登录抛出异常
      */
     @PutMapping
-    public ResponseEntity<UserInfoBO> updateInfo(
+    public ResultBean updateInfo(
         @RequestBody UserInfoBO user
         ) {
         //先获取登录用户的ID
         User u=userService.getLoginUserORException();
         //合并到用户
         u.mergeFromBO(user);
-        return new ResponseEntity<UserInfoBO>(new UserInfoBO(userService.save(u)), HttpStatus.OK);
+        return ResultBean.success("",new UserInfoBO(userService.save(u)));
     }
 
     //TODO 修改密码的接口
