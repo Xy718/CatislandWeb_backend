@@ -18,6 +18,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * 更新用户头像
      */
     @Modifying
-    @Query("update user u set u.avatar=?2 where u.uid=?1")
+    @Query("update User u set u.avatar=?2 where u.uid=?1")
     int updateAvatarById(Long id,String avatar);
 }

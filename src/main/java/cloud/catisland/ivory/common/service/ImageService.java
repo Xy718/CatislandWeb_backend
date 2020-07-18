@@ -3,6 +3,8 @@ package cloud.catisland.ivory.common.service;
 import java.io.File;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 /**
  * 图片服务，用来上传图片到指定的OSS
  * 
@@ -11,6 +13,7 @@ import java.util.Optional;
  * @LastEditors: Xy718
  * @LastEditTime: 2020-07-06 15:13:24
  */
+@Service
 public interface ImageService {
     
     public Optional<String> upImage(File imgFile);

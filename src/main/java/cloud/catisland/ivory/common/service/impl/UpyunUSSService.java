@@ -6,9 +6,12 @@ import java.util.Optional;
 
 import com.upyun.UpException;
 
+import org.springframework.stereotype.Service;
+
 import cloud.catisland.ivory.common.service.ImageService;
 import cloud.catisland.ivory.common.util.UpyunUSSUtil;
 
+@Service
 public class UpyunUSSService implements ImageService {
 
     @Override
