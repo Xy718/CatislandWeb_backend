@@ -23,6 +23,9 @@ repositories {
 
 dependencies {
     compile('javax.validation:validation-api')
+    // compile('com.querydsl:querydsl-apt')
+    // compile('com.querydsl:querydsl-jpa')
+
     compile('com.upyun:java-sdk:4.2.0')
     compile('org.springframework.boot:spring-boot-starter-validation')  
     implementation "org.apache.commons:commons-compress:1.20"

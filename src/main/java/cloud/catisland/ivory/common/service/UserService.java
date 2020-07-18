@@ -75,4 +75,8 @@ public class UserService {
         }
     }
 
+	public int changeAvatar(Long uid, String avatar) {
+        return uRepo.updateAvatarById(uid, avatar);
+	}
+
 }

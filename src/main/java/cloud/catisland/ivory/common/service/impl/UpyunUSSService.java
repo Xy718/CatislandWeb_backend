@@ -14,8 +14,7 @@ public class UpyunUSSService implements ImageService {
     @Override
     public Optional<String> upImage(File imgFile) {
         // TODO Auto-generated method stub
-        UpyunUSSUtil.upFile(imgFile, "/test/");
-        return null;
+        return UpyunUSSUtil.upFile(imgFile, "/test/");
     }
 
     @Override
