@@ -1,17 +1,14 @@
 package cloud.catisland.ivory.system.exception.handler;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import ch.qos.logback.core.encoder.EchoEncoder;
 import cloud.catisland.ivory.system.exception.base.LoginUserNotFoundException;
 import cloud.catisland.ivory.system.exception.base.UserAlreadyRegisteredException;
 import cloud.catisland.ivory.system.exception.base.UserPassErrorException;
 import cloud.catisland.ivory.system.model.BO.ResultBean;
+import cloud.catisland.ivory.system.exception.base.UserNickNameNotFoundException;
 
-import java.util.List;
 
 /**
  * 用户账户相关的异常捕获器
@@ -49,6 +46,16 @@ public class AuthExceptionHandler {
     @ExceptionHandler(UserPassErrorException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResultBean UserPassErrorException(UserPassErrorException exception) {
+        return ResultBean.error(exception.getMessage());
+    }
+    /**
+     * 用于捕获用户信息时通过昵称获取不到的异常
+     * @param exception
+     * @return ResultBean
+     */
+    @ExceptionHandler(UserNickNameNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResultBean UserNickNameNotFoundException(UserNickNameNotFoundException exception) {
         return ResultBean.error(exception.getMessage());
     }
 }

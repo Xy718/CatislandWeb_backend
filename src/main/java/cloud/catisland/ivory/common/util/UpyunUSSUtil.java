@@ -144,8 +144,8 @@ public class UpyunUSSUtil {
         try {
             // 设置待上传文件的 Content-MD5 值
             // 如果又拍云服务端收到的文件MD5值与用户设置的不一致，将回报 406 NotAcceptable 错误
-            upyun.setContentMD5(UpYun.md5(imgFile));
-            ifSuccess = upyun.writeFile(path, imgFile, true);
+            // upyun.setContentMD5(UpYun.md5(imgFile));
+            ifSuccess = upyun.writeFile(path, imgFile,true);
             if(ifSuccess){
                 log.info("上传成功，路径为 "+path+"/"+imgFile.getName());
                 return Optional.of(path+"/"+imgFile.getName());

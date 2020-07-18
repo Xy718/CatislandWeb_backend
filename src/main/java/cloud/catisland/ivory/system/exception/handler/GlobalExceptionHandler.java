@@ -3,10 +3,10 @@ package cloud.catisland.ivory.system.exception.handler;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartException;
 
-import cloud.catisland.ivory.system.exception.base.UserNickNameNotFoundException;
-import cloud.catisland.ivory.system.exception.base.UserPassErrorException;
 import cloud.catisland.ivory.system.model.BO.ResultBean;
 
 import java.util.List;
@@ -35,13 +35,25 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 用于捕获用户信息时通过昵称获取不到的异常
+     * 用于捕获文件体获取不到的异常
      * @param exception
      * @return ResultBean
      */
-    @ExceptionHandler(UserNickNameNotFoundException.class)
+    @ExceptionHandler(MultipartException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResultBean UserNickNameNotFoundException(UserNickNameNotFoundException exception) {
-        return ResultBean.error(exception.getMessage());
+    public ResultBean MultipartException(MultipartException exception) {
+        return ResultBean.error("找不到上传的文件，请尝试重新上传");
+    }
+
+
+    /**
+     * 用于捕获字段不足的异常
+     * @param exception
+     * @return ResultBean
+     */
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResultBean MissingServletRequestParameterException(MissingServletRequestParameterException exception) {
+        return ResultBean.error("没有足够的数据来交互借口，可能我代码写的有问题？？");
     }
 }

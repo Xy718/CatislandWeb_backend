@@ -1,10 +1,8 @@
 package cloud.catisland.ivory.common.service.impl;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Optional;
 
-import com.upyun.UpException;
 
 import org.springframework.stereotype.Service;
 
