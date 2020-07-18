@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
  * @Author: Xy718
  * @Date: 2020-07-06 14:32:01
  * @LastEditors: Xy718
- * @LastEditTime: 2020-07-06 15:13:24
+ * @LastEditTime: 2020-07-19 01:59:17
  */
-@Service
+// @Service
 public interface ImageService {
     
     public Optional<String> upImage(File imgFile);

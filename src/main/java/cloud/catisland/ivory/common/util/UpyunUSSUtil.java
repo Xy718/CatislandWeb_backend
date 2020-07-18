@@ -1,9 +1,12 @@
 package cloud.catisland.ivory.common.util;
 
 import com.UpYun;
+import com.alibaba.fastjson.JSON;
+import com.upyun.RestManager;
 import com.upyun.UpException;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.Response;
 
 import java.io.File;
 import java.io.IOException;
@@ -140,13 +143,16 @@ public class UpyunUSSUtil {
      * @throws IOException
      */
     public static Optional<String> upFile(File imgFile,String path){
-        boolean ifSuccess;
+        boolean ifSuccess=false;
         try {
             // 设置待上传文件的 Content-MD5 值
             // 如果又拍云服务端收到的文件MD5值与用户设置的不一致，将回报 406 NotAcceptable 错误
             // upyun.setContentMD5(UpYun.md5(imgFile));
-            ifSuccess = upyun.writeFile(path, imgFile,true);
-            if(ifSuccess){
+            //ifSuccess = upyun.writeFile(path, imgFile,true);
+            RestManager magaer=new RestManager(BUCKET_NAME,OPERATOR_NAME,OPERATOR_PWD);
+            log.info("创建目录" +( magaer.mkDir(path).isSuccessful()? "成功" : "失败"));
+            Response res=magaer.writeFile(path+"/"+imgFile.getName(), imgFile,null);
+            if(res.isSuccessful()){
                 log.info("上传成功，路径为 "+path+"/"+imgFile.getName());
                 return Optional.of(path+"/"+imgFile.getName());
             }else{

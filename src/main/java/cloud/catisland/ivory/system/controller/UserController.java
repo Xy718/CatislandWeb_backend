@@ -130,7 +130,7 @@ public class UserController {
             e.printStackTrace();
             throw new FileUploadException(e.getMessage());
         }
-        ImageService imgSrv=new UpyunUSSService();
+        UpyunUSSService imgSrv=new UpyunUSSService();
         //上传到USS
         Optional<String> imageUrl=imgSrv.upImage(OSSImage);
         if(imageUrl.isPresent()){
