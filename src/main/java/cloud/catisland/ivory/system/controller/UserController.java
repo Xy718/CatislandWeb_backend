@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.Optional;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
@@ -33,11 +31,9 @@ import cn.hutool.core.util.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import cloud.catisland.ivory.common.dao.model.User;
 import cloud.catisland.ivory.common.dao.model.enums.AvatarChangeType;
-import cloud.catisland.ivory.common.service.ImageService;
 import cloud.catisland.ivory.common.service.UserService;
 import cloud.catisland.ivory.common.service.impl.UpyunUSSService;
 import cloud.catisland.ivory.common.util.XyRandom;
-import cloud.catisland.ivory.common.util.XyUtil;
 
 @Validated
 @RestController

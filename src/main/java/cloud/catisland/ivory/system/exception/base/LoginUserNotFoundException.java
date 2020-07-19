@@ -1,6 +1,5 @@
 package cloud.catisland.ivory.system.exception.base;
 
-import cloud.catisland.ivory.system.model.BO.RegBO;
 import lombok.Data;
 
 /**

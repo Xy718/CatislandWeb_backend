@@ -1,7 +1,5 @@
 package cloud.catisland.ivory.common.dao.model.enums;
 
-import lombok.val;
-
 public enum AvatarChangeType {
     EDIT(0),
     REMOVE(1);
