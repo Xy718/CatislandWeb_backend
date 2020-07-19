@@ -32,6 +32,7 @@ import cloud.catisland.ivory.system.model.BO.UserInfoBO;
 import cn.hutool.core.util.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import cloud.catisland.ivory.common.dao.model.User;
+import cloud.catisland.ivory.common.dao.model.enums.AvatarChangeType;
 import cloud.catisland.ivory.common.service.ImageService;
 import cloud.catisland.ivory.common.service.UserService;
 import cloud.catisland.ivory.common.service.impl.UpyunUSSService;
@@ -106,15 +107,18 @@ public class UserController {
     // TODO 修改头像
     @PostMapping("/avatar")
     public ResultBean changeAvatar(
-        @RequestParam("type") String type
+        @RequestParam("type") Integer type
         , @RequestParam("file") MultipartFile avatar
     )throws LoginUserNotFoundException, FileUploadException {
+        User u = userService.getLoginUserORException();
+        log.info("用户{}{}头像", u.getUserName(),avatar.isEmpty()?"删除":"修改");
+        if(type==AvatarChangeType.REMOVE.getValue()){
+            return changeUserAvatar(u,"",null);
+        }
         if (avatar.isEmpty()) {
             log.error("文件为空");
             throw new FileUploadException("上传失败");
         }
-        User u = userService.getLoginUserORException();
-        log.info("用户{}上传头像", u.getUserName());
         // 生成图片名称
         String fileName = RandomUtil.randomString(XyRandom.get62ByteString(), 16);// 文件名
         File OSSImage;
@@ -129,15 +133,28 @@ public class UserController {
         //上传到USS
         Optional<String> imageUrl=imgSrv.upImage(OSSImage);
         if(imageUrl.isPresent()){
-            log.info("上传成功路径：{} 删除临时文件：{}",config.getOssdomain()+imageUrl.get(),OSSImage.delete());
-            //写库，更新数据
-            int result=userService.changeAvatar(u.getUid(),config.getOssdomain()+imageUrl.get());
-            //返回
-            return result==1?
-                ResultBean.success(config.getOssdomain()+imageUrl.get()):
-                ResultBean.error("更新失败："+result);
+            return changeUserAvatar(u,config.getOssdomain()+imageUrl.get(),OSSImage);
         }else{
-            throw new FileUploadException("上传失败");
+            throw new FileUploadException("上传到OSS服务器失败");
         }
+    }
+
+    /**
+     * 修改用户的头像
+     * @param u user对象
+     * @param imageUrl url路径
+     * @param OSSImage 待删除的临时图片文件
+     * @return
+     */
+    ResultBean changeUserAvatar(User u,String imageUrl,File OSSImage){
+        if(OSSImage!=null){
+            log.info("上传成功路径：{} 删除临时文件：{}",imageUrl,OSSImage.delete());
+        }
+        //写库，更新数据
+        int result=userService.changeAvatar(u.getUid(),imageUrl);
+        //返回
+        return result==1?
+            ResultBean.success(imageUrl):
+            ResultBean.error("更新失败："+result);
     }
 }
