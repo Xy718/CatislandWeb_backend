@@ -45,13 +45,8 @@ public class UpyunUSSUtil {
      */
     private static final String FILE_NAME = "test.txt";
 
-    /**
-     * 本地待上传的测试文件
-     */
-    private static final String SAMPLE_TXT_FILE = System
-            .getProperty("user.dir") + "/test.txt";
-
     private static UpYun upyun = null;
+    private static RestManager restManager = new RestManager(BUCKET_NAME,OPERATOR_NAME,OPERATOR_PWD);
 
     // static {
     //     File txtFile = new File(SAMPLE_TXT_FILE);
@@ -139,32 +134,29 @@ public class UpyunUSSUtil {
 
     /**
      * 上传文件
-     *
+     * @param imgFile 图片文件
+     * @param path 路径,不包含文件名
+     * 
      * @throws IOException
+     * @throws UpException
      */
     public static Optional<String> upFile(File imgFile,String path){
-        boolean ifSuccess=false;
         try {
-            // 设置待上传文件的 Content-MD5 值
-            // 如果又拍云服务端收到的文件MD5值与用户设置的不一致，将回报 406 NotAcceptable 错误
-            // upyun.setContentMD5(UpYun.md5(imgFile));
-            //ifSuccess = upyun.writeFile(path, imgFile,true);
-            RestManager magaer=new RestManager(BUCKET_NAME,OPERATOR_NAME,OPERATOR_PWD);
-            log.info("创建目录" +( magaer.mkDir(path).isSuccessful()? "成功" : "失败"));
-            Response res=magaer.writeFile(path+"/"+imgFile.getName(), imgFile,null);
-            if(res.isSuccessful()){
-                log.info("上传成功，路径为 "+path+"/"+imgFile.getName());
-                return Optional.of(path+"/"+imgFile.getName());
-            }else{
-                log.error("上传失败");
+            Response mkdir=restManager.mkDir(path);
+            if(!mkdir.isSuccessful()){
+                log.error("创建目录失败:"+mkdir.code());
                 return Optional.ofNullable(null);
             }
+            Response res=restManager.writeFile(path+"/"+imgFile.getName(), imgFile,null);
+            if(res.isSuccessful()){
+                return Optional.of(path+"/"+imgFile.getName());
+            }else{
+                log.error("上传失败:"+res.code());
+            }
         } catch (IOException | UpException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            log.error("上传失败");
-            return Optional.ofNullable(null);
+            log.error("上传失败",e.getCause());
         }
+        return Optional.ofNullable(null);
     }
 
     /**

@@ -10,19 +10,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import cloud.catisland.ivory.system.config.ProjectConfig;
 import cloud.catisland.ivory.system.exception.base.LoginUserNotFoundException;
 import cloud.catisland.ivory.system.exception.base.UserNickNameNotFoundException;
 import cloud.catisland.ivory.system.model.BO.ResultBean;
@@ -56,6 +47,8 @@ public class UserController {
     private UserService userService;
     // @Autowired
     // private ImageService imgSrv;
+    @Resource
+    private ProjectConfig config;
 
     /**
      * 获取登录用户自身的信息
@@ -112,34 +105,36 @@ public class UserController {
 
     // TODO 修改头像
     @PostMapping("/avatar")
-    public ResultBean changeAvatar(@RequestParam("type") String type, @RequestParam("file") MultipartFile avatar)
-            throws LoginUserNotFoundException, FileUploadException, IOException {
+    public ResultBean changeAvatar(
+        @RequestParam("type") String type
+        , @RequestParam("file") MultipartFile avatar
+    )throws LoginUserNotFoundException, FileUploadException {
         if (avatar.isEmpty()) {
-            System.out.println("文件为空空");
+            log.error("文件为空");
+            throw new FileUploadException("上传失败");
         }
         User u = userService.getLoginUserORException();
         log.info("用户{}上传头像", u.getUserName());
         // 生成图片名称
-        String fileName = RandomUtil.randomString(XyRandom.get62ByteString(), 32); //+ ".png";// 文件名
-        File OSSImage = File.createTempFile(fileName, ".png");//new File("tmp/"+fileName);
+        String fileName = RandomUtil.randomString(XyRandom.get62ByteString(), 16);// 文件名
+        File OSSImage;
         try {
+            OSSImage = File.createTempFile(fileName, ".png");
             //接受图片文件
-            // OSSImage = XyUtil.multipartFileToFile(avatar,fileName);
             avatar.transferTo(OSSImage);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
             throw new FileUploadException(e.getMessage());
         }
         UpyunUSSService imgSrv=new UpyunUSSService();
         //上传到USS
         Optional<String> imageUrl=imgSrv.upImage(OSSImage);
         if(imageUrl.isPresent()){
-            log.info("上传成功路径：{}",imageUrl);
+            log.info("上传成功路径：{} 删除临时文件：{}",config.getOssdomain()+imageUrl.get(),OSSImage.delete());
             //写库，更新数据
-            int result=userService.changeAvatar(u.getUid(),imageUrl.get());
+            int result=userService.changeAvatar(u.getUid(),config.getOssdomain()+imageUrl.get());
             //返回
             return result==1?
-                ResultBean.success(imageUrl):
+                ResultBean.success(config.getOssdomain()+imageUrl.get()):
                 ResultBean.error("更新失败："+result);
         }else{
             throw new FileUploadException("上传失败");

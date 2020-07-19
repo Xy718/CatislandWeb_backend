@@ -3,7 +3,6 @@ package cloud.catisland.ivory.common.dao.model;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
@@ -13,12 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
 
 import org.hibernate.annotations.Type;
@@ -27,7 +21,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import cloud.catisland.ivory.system.model.BO.UserInfoBO;
 import lombok.Data;
 
 /**
