@@ -117,7 +117,7 @@ public class UserController {
         }
         // 生成图片名称
         String fileName = RandomUtil.randomString(XyRandom.get62ByteString(), 16);// 文件名
-        File OSSImage;
+        File OSSImage; 
         try {
             OSSImage = File.createTempFile(fileName, ".png");
             //接受图片文件
