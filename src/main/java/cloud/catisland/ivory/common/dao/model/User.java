@@ -3,6 +3,7 @@ package cloud.catisland.ivory.common.dao.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -28,7 +29,7 @@ import lombok.Data;
 public class User {
     //用户ID
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long uid;
     //用户名
     @Column(name="user_name",nullable = false, unique = true)

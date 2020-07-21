@@ -33,8 +33,8 @@ public class FirstStartup implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         log.info("检测是否是第一次启动"); 
-
-        String filePath = System.getenv("SystemDrive")+"/root/.ivory/initialized";
+		String sysPath=System.getenv("SystemDrive");
+        String filePath = (sysPath==null?"": sysPath)+"/root/.ivory/initialized";
 		log.info("The lock file on {}.",filePath.toString());
 		File lockFIle =	FileUtil.file(filePath);
 		if (!(lockFIle.exists()&&lockFIle.isFile())){
