@@ -52,11 +52,17 @@ test {
 
 def env=System.getProperty("profile") ?:"dev"
 bootJar {
-   doFirst {
+    doFirst {
         def file=new File("${buildDir}/resources/main/application.properties")
         println("正在编译jar包---环境[${env}]")
+        def list = file.readLines()
+        println list
+        list[0]='spring.profiles.active=prod'
+
         file.newWriter(false).with {
-            it.write("spring.profiles.active=${env}")
+            for (lineStr in list) {
+                it.write(lineStr+"\r\n")
+            }
             it.flush()
             it.close()
         }
