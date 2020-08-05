@@ -68,6 +68,17 @@ pipeline {
           ,to: '869839000@qq.com'
           )
         echo 'Xy718的提示邮件发送完毕'
+
+        emailext(
+          subject: 'WD —— 象牙塔前台API'
+          , body: '$DEFAULT_CONTENT'
+          , attachLog: true
+          , compressLog: true
+          , postsendScript: '$DEFAULT_POSTSEND_SCRIPT'
+          , presendScript:'$DEFAULT_PRESEND_SCRIPT'
+          ,to: '1500624302@qq.com'
+          )
+        echo 'WD的提示邮件发送完毕'
       }
     }
   }
