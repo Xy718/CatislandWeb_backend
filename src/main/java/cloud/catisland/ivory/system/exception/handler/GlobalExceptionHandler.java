@@ -54,6 +54,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MissingServletRequestParameterException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResultBean MissingServletRequestParameterException(MissingServletRequestParameterException exception) {
+        exception.printStackTrace();
         return ResultBean.error("没有足够的数据来交互借口，可能我代码写的有问题？？");
     }
 }
