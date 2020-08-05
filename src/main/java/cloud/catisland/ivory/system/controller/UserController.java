@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotEmpty;
 
+import cloud.catisland.ivory.system.exception.base.FileUploadFailedException;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -105,7 +106,7 @@ public class UserController {
     public ResultBean changeAvatar(
         @RequestParam("type") Integer type
         , @RequestParam("file") MultipartFile avatar
-    )throws LoginUserNotFoundException, FileUploadException {
+    ) throws LoginUserNotFoundException, FileUploadFailedException {
         User u = userService.getLoginUserORException();
         log.info("用户{}{}头像", u.getUserName(),avatar.isEmpty()?"删除":"修改");
         if(type==AvatarChangeType.REMOVE.getValue()){
@@ -113,17 +114,17 @@ public class UserController {
         }
         if (avatar.isEmpty()) {
             log.error("文件为空");
-            throw new FileUploadException("上传失败");
+            throw new FileUploadFailedException("上传失败");
         }
         // 生成图片名称
-        String fileName = RandomUtil.randomString(XyRandom.get62ByteString(), 16);// 文件名
+        String fileName = RandomUtil.randomString(XyRandom.get62ByteString(), 16);
         File OSSImage; 
         try {
             OSSImage = File.createTempFile(fileName, ".png");
             //接受图片文件
             avatar.transferTo(OSSImage);
         } catch (IOException e) {
-            throw new FileUploadException(e.getMessage());
+            throw new FileUploadFailedException(e.getMessage());
         }
         UpyunUSSService imgSrv=new UpyunUSSService();
         //上传到USS
@@ -131,7 +132,7 @@ public class UserController {
         if(imageUrl.isPresent()){
             return changeUserAvatar(u,config.getOssdomain()+imageUrl.get(),OSSImage);
         }else{
-            throw new FileUploadException("上传到OSS服务器失败");
+            throw new FileUploadFailedException("上传到OSS服务器失败");
         }
     }
 
