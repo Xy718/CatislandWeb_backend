@@ -116,6 +116,10 @@ public class UserController {
             log.error("文件为空");
             throw new FileUploadFailedException("上传失败");
         }
+        if (avatar.isEmpty()) {
+            log.error("文件为空");
+            throw new FileUploadFailedException("上传失败");
+        }
         // 生成图片名称
         String fileName = RandomUtil.randomString(XyRandom.get62ByteString(), 16);
         File OSSImage; 
