@@ -105,7 +105,7 @@ public class UserController {
     @PostMapping("/avatar")
     public ResultBean changeAvatar(
         @RequestParam("type") Integer type
-        , @RequestParam("file") MultipartFile avatar
+        ,@RequestParam(name="file",required = false) MultipartFile avatar
     ) throws LoginUserNotFoundException, FileUploadFailedException {
         User u = userService.getLoginUserORException();
         log.info("用户{}{}头像", u.getUserName(),avatar.isEmpty()?"删除":"修改");
