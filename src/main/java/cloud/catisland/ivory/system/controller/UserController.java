@@ -112,7 +112,7 @@ public class UserController {
         if(type==AvatarChangeType.REMOVE.getValue()){
             return changeUserAvatar(u,"",null);
         }
-        if (avatar.isEmpty()) {
+        if (avatar==null) {
             log.error("文件为空");
             throw new FileUploadFailedException("上传失败");
         }
